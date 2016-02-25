@@ -50,6 +50,8 @@ outside = Location("Outside", "Outside your house. It sure looks scary. Perhaps 
 
 makeConnection(yourHouse, outside)
 
+currentLocation = yourHouse
+
 def main(stdscr):
     stdscr.clear()
     stdscr.refresh()
@@ -70,7 +72,17 @@ def main(stdscr):
 
     genderConfirm = "Got it, you chose " + gender + "."
     stdscr.addstr(0, 0, genderConfirm, curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "What's your name? (max 24 characters)", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(2, 0, '> ', curses.color_pair(0) | curses.A_BOLD)
+    playerName = stdscr.getstr(2, 2, 24).decode('utf8')
+    stdscr.clear()
+    stdscr.refresh()
+    topbar = "OK " + playerName + ", you chose " + gender + " as your gender."
+    stdscr.addstr(0, 0, topbar, curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "Now get out there and do some adventuring!", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
+    
+    
             
 if __name__=='__main__':
     try:
