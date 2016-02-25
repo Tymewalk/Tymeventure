@@ -9,7 +9,8 @@
 
 import curses # Curses! You've foiled my plan!
 
-inventory = list()
+inventory = list() # The player's inventory
+gender = "neutral" # The player's gender, for him/her/they or he's/she's/they're
 
 # The location class
 class Location():
@@ -54,8 +55,21 @@ def main(stdscr):
     stdscr.refresh()
     stdscr.addstr(0, 0, 'Welcome to Tymeventure! Press any key to continue.', curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
-    stdscr.addstr(0, 0, 'This is a simple example to test curses.', curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, 'Look, blue text!', curses.color_pair(1) | curses.A_BOLD)
+
+    stdscr.addstr(0, 0, "Let's get started. Are you a:", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "(b)oy", curses.color_pair(1) | curses.A_BOLD)
+    stdscr.addstr(2, 0, "(g)irl", curses.color_pair(2) | curses.A_BOLD)
+    stdscr.addstr(3, 0, "Or would you simply prefer not to share? (any other key)", curses.color_pair(0) | curses.A_BOLD)
+    selection = nextMenu(stdscr).lower() # Ignore caps
+    if selection == "b":
+        gender = "boy"
+    elif selection == "g":
+        gender = "girl"
+    else:
+        gender = "neutral" # Simply say neutral, as they chose not to share.
+
+    genderConfirm = "Got it, you chose " + gender + "."
+    stdscr.addstr(0, 0, genderConfirm, curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
             
 if __name__=='__main__':
