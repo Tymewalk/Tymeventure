@@ -1,11 +1,12 @@
-# TYMEVENTURE v0.0.0
-# Status: Basically nothing is here
-# A simple curses-based game running i Python 3.4.3.
+# TYMEVENTURE v0.0.1
+# Status: Playable (but not that good XD)
+# A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
 #
 # TODO:
-# - Actually set up more than just 2 places
 # - Make inventory more than just an empty list
+# - Develop some story
+# - Add items
 
 import curses # Curses! You've foiled my plan!
 
@@ -34,25 +35,32 @@ def makeConnection(pointA, pointB):
     if not pointA in pointB.connections:
         pointB.connections.append(pointA)
 
-# Small script I wrote a while back to get keypresses
+# Small function I wrote a while back to get keypresses
 def getKey(screen):
     return chr(screen.getch())
 
-# Convienience function to quickly make menus like the intro
+# Convienience function to quickly make menus that can be skipped through like the intro
+# Also returns a key if you want multi-choice menus. Nifty.
 def nextMenu(screen):
     key = getKey(screen)
     screen.clear()
     screen.refresh()
     return key
 
-yourHouse = Location("Your House", "Your house, the place you live in.")
+yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
+yourDoorstep = Location("Your Doorstep", "Your doorstep. You could go outside if you wanted.")
 outside = Location("Outside", "Outside your house. It sure looks scary. Perhaps you should stay on the internet.")
+yourLawn = Location("Your Lawn", "Your lawn. There's grass here. Obviously. It smells nice. Maybe you should stay here.")
+town = Location("Town", "Your town. There's a lot of people. Ugh, people. They're SO overrated.")
 
-makeConnection(yourHouse, outside)
+makeConnection(yourComputer, yourDoorstep)
+makeConnection(yourDoorstep, outside)
+makeConnection(outside, yourLawn)
+makeConnection(outside, town)
 
 
 def main(stdscr):  
-    currentLocation = yourHouse
+    currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
     stdscr.addstr(0, 0, 'Welcome to Tymeventure! Press any key to continue.', curses.color_pair(0) | curses.A_BOLD)
@@ -99,7 +107,7 @@ def main(stdscr):
         if choice == "q":
             continueGame = False
         elif choice == "m":
-            ypos = 5
+            ypos = 1
             stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             keycount = 1
             for place in currentLocation.connections:
