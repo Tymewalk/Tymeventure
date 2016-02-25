@@ -50,9 +50,9 @@ outside = Location("Outside", "Outside your house. It sure looks scary. Perhaps 
 
 makeConnection(yourHouse, outside)
 
-currentLocation = yourHouse
 
-def main(stdscr):
+def main(stdscr):  
+    currentLocation = yourHouse
     stdscr.clear()
     stdscr.refresh()
     stdscr.addstr(0, 0, 'Welcome to Tymeventure! Press any key to continue.', curses.color_pair(0) | curses.A_BOLD)
@@ -81,9 +81,43 @@ def main(stdscr):
     stdscr.addstr(0, 0, topbar, curses.color_pair(0) | curses.A_BOLD)
     stdscr.addstr(1, 0, "Now get out there and do some adventuring!", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
-    
-    
-            
+
+    continueGame = True
+    while continueGame:
+        topbar = playerName # May be expanded in the future
+        stdscr.addstr(0, 0, topbar, curses.color_pair(0) | curses.A_BOLD)
+        location = "Current Location: " + currentLocation.printName
+        stdscr.addstr(1, 0, location, curses.color_pair(0) | curses.A_BOLD)
+        description = currentLocation.desc
+        stdscr.addstr(2, 0, description, curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 40, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(1, 40, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
+        choice = getKey(stdscr).lower() # Case doesn't matter
+        # Clear before we process so we can print
+        stdscr.clear()
+        stdscr.refresh()
+        if choice == "q":
+            continueGame = False
+        elif choice == "m":
+            ypos = 5
+            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            keycount = 1
+            for place in currentLocation.connections:
+                label = "|(" + str(keycount) + ")" + place.printName
+                stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
+                stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                ypos += 1
+                keycount += 1
+            stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", curses.color_pair(0) | curses.A_BOLD)
+            choice = nextMenu(stdscr).lower() # Case doesn't matter
+            if int(choice) - 1 < len(currentLocation.connections):
+                moveTo = currentLocation.connections[int(choice) - 1]
+                currentLocation = moveTo # Move us
+        else:
+            pass
+
+        
 if __name__=='__main__':
     try:
         stdscr = curses.initscr()
