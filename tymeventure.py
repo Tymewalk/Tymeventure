@@ -120,8 +120,10 @@ def main(stdscr):
         stdscr.addstr(1, 0, location, curses.color_pair(0) | curses.A_BOLD)
         description = currentLocation.desc
         stdscr.addstr(2, 0, description, curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(0, 40, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(1, 40, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(3, 40, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(4, 40, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(5, 40, "(T)hings here", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(6, 40, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
         choice = getKey(stdscr).lower() # Case doesn't matter
         # Clear before we process so we can print
         stdscr.clear()
@@ -144,6 +146,39 @@ def main(stdscr):
             if int(choice) - 1 < len(currentLocation.connections):
                 moveTo = currentLocation.connections[int(choice) - 1]
                 currentLocation = moveTo # Move us
+        elif choice == "m":
+            ypos = 1
+            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            keycount = 1
+            for place in currentLocation.connections:
+                label = "|(" + str(keycount) + ")" + place.printName
+                stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
+                stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                ypos += 1
+                keycount += 1
+            stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", curses.color_pair(0) | curses.A_BOLD)
+            choice = nextMenu(stdscr)
+            if int(choice) - 1 < len(currentLocation.connections):
+                moveTo = currentLocation.connections[int(choice) - 1]
+                currentLocation = moveTo # Move us
+        elif choice == "t":
+            ypos = 1
+            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            keycount = 1
+            if currentLocation.itemsHere == []:
+                stdscr.addstr(ypos, 0, "There is nothing here.", curses.color_pair(0) | curses.A_BOLD)
+                ypos += 1
+            else:
+                for place in currentLocation.itemsHere:
+                    label = "|(" + str(keycount) + ")" + place.printName
+                    stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                    ypos += 1
+                    keycount += 1
+            stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "Press any key to exit...", curses.color_pair(0) | curses.A_BOLD)
+            nextMenu(stdscr)
         else:
             pass
 
