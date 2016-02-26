@@ -162,7 +162,6 @@ def main(stdscr):
                     ypos += 1
                     keycount += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "Press any key to exit...", curses.color_pair(0) | curses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789": # Make sure it's a number, the game crashes otherwise
@@ -173,7 +172,16 @@ def main(stdscr):
                     checkItem = False
 
             if checkItem:
-                pass # This is where we do stuff to the item
+                stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+                option = "(1)Take Item"
+                stdscr.addstr(1, 0, option + " " * (40 - len(option)), curses.color_pair(0) | curses.A_BOLD)
+                stdscr.addstr(1, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                stdscr.addstr(2, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+                choice = nextMenu(stdscr)
+                if choice == "1":
+                    currentLocation.itemsHere.remove(itemInQuestion)
+                    inventory.append(itemInQuestion)
+                
             
         elif choice == "i":
             ypos = 1
