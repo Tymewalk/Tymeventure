@@ -1,4 +1,4 @@
-# TYMEVENTURE v0.0.1
+# TYMEVENTURE v0.0.1+
 # Status: Playable (but not that good XD)
 # A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
@@ -21,11 +21,23 @@ class Location():
 
         self.connections = list() # A list of all the places you can go to from this place
                                   # All elements in this are other Location() classes.
-        self.itemsHere = list() # For another time
+        self.itemsHere = list() # The items at this location on the ground
 
     def canGoTo(self, dest):
         ''' Can we go to the destination from here? '''
         return dest in self.connections
+
+# The item class
+class Item():
+    def __init__(self, printName, desc, canTake):
+        self.printName = printName # The "pretty" name it uses in the game
+        self.desc = desc # The description it uses, which is what the player will see
+        self.canTake = canTake # Can this item be taken and picked up?
+
+
+    def useWith(item, location):
+        '''Use the item with another item.'''
+        return True # Placeholder
 
 # Make a connection between two points.
 def makeConnection(pointA, pointB):
@@ -47,15 +59,25 @@ def nextMenu(screen):
     screen.refresh()
     return key
 
+# Set up locations
 yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
 yourDoorstep = Location("Your Doorstep", "Your doorstep. You could go outside if you wanted.")
 outside = Location("Outside", "Outside your house. It sure looks scary. Perhaps you should stay on the internet.")
 yourLawn = Location("Your Lawn", "Your lawn. There's grass here. Obviously. It smells nice. Maybe you should stay here.")
+yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. You keep saying you'll clean it out, but you never do.")
 town = Location("Town", "Your town. There's a lot of people. Ugh, people. They're SO overrated.")
 
+# Set up items
+hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
+
+# Set up items in the world
+yourShed.itemsHere = [hedgeclippers]
+
+# Make connections
 makeConnection(yourComputer, yourDoorstep)
 makeConnection(yourDoorstep, outside)
 makeConnection(outside, yourLawn)
+makeConnection(yourLawn, yourShed)
 makeConnection(outside, town)
 
 
