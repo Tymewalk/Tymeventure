@@ -142,32 +142,17 @@ def main(stdscr):
                 keycount += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", curses.color_pair(0) | curses.A_BOLD)
-            choice = nextMenu(stdscr).lower() # Case doesn't matter
-            if int(choice) - 1 < len(currentLocation.connections):
-                moveTo = currentLocation.connections[int(choice) - 1]
-                currentLocation = moveTo # Move us
-        elif choice == "m":
-            ypos = 1
-            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            keycount = 1
-            for place in currentLocation.connections:
-                label = "|(" + str(keycount) + ")" + place.printName
-                stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
-                stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
-                ypos += 1
-                keycount += 1
-            stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", curses.color_pair(0) | curses.A_BOLD)
             choice = nextMenu(stdscr)
-            if int(choice) - 1 < len(currentLocation.connections):
-                moveTo = currentLocation.connections[int(choice) - 1]
-                currentLocation = moveTo # Move us
+            if choice in "1234567890": # Make sure it's a number, the game crashes otherwise
+                if int(choice) - 1 < len(currentLocation.connections):
+                    moveTo = currentLocation.connections[int(choice) - 1]
+                    currentLocation = moveTo # Move us
         elif choice == "t":
             ypos = 1
             stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             keycount = 1
             if currentLocation.itemsHere == []:
-                stdscr.addstr(ypos, 0, "There is nothing here.", curses.color_pair(0) | curses.A_BOLD)
+                stdscr.addstr(ypos, 0, "|There is nothing here.                |", curses.color_pair(0) | curses.A_BOLD)
                 ypos += 1
             else:
                 for place in currentLocation.itemsHere:
