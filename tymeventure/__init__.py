@@ -1,5 +1,5 @@
 # TYMEVENTURE v0.0.2
-# Status: Playable (but not that good XD)
+# Status: Stable
 # A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
 #
@@ -38,17 +38,15 @@ def main(stdscr):
     playerName = stdscr.getstr(1, 6, 30).decode('utf8')
     stdscr.clear()
     stdscr.refresh()
-    adventureAnnounce = "OK " + playerName + ", are you ready?"
+    adventureAnnounce = "OK " + playerName + ", get ready to play..."
     stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "-- Press any key to advance --", curses.color_pair(1) | curses.A_BOLD)
-    nextMenu(stdscr)
-    stdscr.addstr(0, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(2, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(3, 0, "But today feels... different.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(4, 0, "Something compels you to go outside today, as if you know something's about to happen.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(5, 0, "You decide to close the computer, and head outside, ready to explore the world...", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(6, 0, "-- Press any key to begin --", curses.color_pair(1) | curses.A_BOLD)
+    stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(3, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(4, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(5, 0, "But today feels... different.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(6, 0, "Something compels you to go outside today, as if you know something's about to happen.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(7, 0, "You decide to close the computer, and head outside, ready to explore the world...", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(8, 0, "-- Press any key to begin --", curses.color_pair(1) | curses.A_BOLD)
     nextMenu(stdscr)
 
     continueGame = True
