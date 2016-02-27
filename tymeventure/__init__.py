@@ -4,15 +4,15 @@
 # Help would be appreciated if you know how.
 #
 # TODO:
-# - Make inventory more than just an empty list
 # - Develop some story
-# - Add items
+# - Allow players to use items, even on themselves
+# - Let players know if there's an item where they are
+# - Better use of colors
 
 import curses # Curses! You've foiled my plan!
 from world import *
 
 inventory = list() # The player's inventory
-gender = "neutral" # The player's gender, for him/her/they or he's/she's/they're
 
 # Small function I wrote a while back to get keypresses
 def getKey(screen):
@@ -26,31 +26,15 @@ def nextMenu(screen):
     screen.refresh()
     return key
 
-
 def main(stdscr):  
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
     stdscr.addstr(0, 0, 'Welcome to Tymeventure! Press any key to continue.', curses.color_pair(0) | curses.A_BOLD)
-    nextMenu(stdscr)
-
-    stdscr.addstr(0, 0, "Let's get started. Are you a:", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "(b)oy", curses.color_pair(1) | curses.A_BOLD)
-    stdscr.addstr(2, 0, "(g)irl", curses.color_pair(2) | curses.A_BOLD)
-    stdscr.addstr(3, 0, "Or would you simply prefer not to share? (any other key)", curses.color_pair(0) | curses.A_BOLD)
-    selection = nextMenu(stdscr).lower() # Ignore caps
-    if selection == "b":
-        gender = "boy"
-    elif selection == "g":
-        gender = "girl"
-    else:
-        gender = "neutral" # Simply say neutral, as they chose not to share.
-
-    genderConfirm = "Got it, you chose " + gender + "."
-    stdscr.addstr(0, 0, genderConfirm, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(2, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
-    playerName = stdscr.getstr(2, 6, 30).decode('utf8')
+    nextMenu(stdscr)    
+    stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
+    playerName = stdscr.getstr(1, 6, 30).decode('utf8')
     stdscr.clear()
     stdscr.refresh()
     adventureAnnounce = "OK " + playerName + ", are you ready?"
