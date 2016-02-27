@@ -32,3 +32,28 @@ def makeConnection(pointA, pointB):
     if not pointA in pointB.connections:
         pointB.connections.append(pointA)
 
+
+# Set up locations
+yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
+yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from here.")
+outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
+yourLawn = Location("Your Lawn", "Your lawn. It's surrounded by fences, behind which are your neighbors' houses.")
+yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. You keep saying you'll clean it out, but you never do.")
+yourBlock = Location("Your Block", "Your block. You see your neighbors' houses around you.")
+blockRoad = Location("Block Road", "The road for your block. You can see the town square up ahead.")
+townSquare = Location("Town Square", "The town square. There's a lot of people. Must be a busy day.")
+
+# Set up items
+hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
+
+# Set up items in the world
+yourShed.itemsHere = [hedgeclippers]
+
+# Make connections
+makeConnection(yourComputer, yourDoorstep)
+makeConnection(yourDoorstep, outside)
+makeConnection(outside, yourLawn)
+makeConnection(yourLawn, yourShed)
+makeConnection(outside, yourBlock)
+makeConnection(yourBlock, blockRoad)
+makeConnection(blockRoad, townSquare)
