@@ -9,43 +9,10 @@
 # - Add items
 
 import curses # Curses! You've foiled my plan!
+from world import *
 
 inventory = list() # The player's inventory
 gender = "neutral" # The player's gender, for him/her/they or he's/she's/they're
-
-# The location class
-class Location():
-    def __init__(self, printName, desc):
-        self.printName = printName # The "pretty" name it uses in the game
-        self.desc = desc # The description it uses, which is what the player will see
-
-        self.connections = list() # A list of all the places you can go to from this place
-                                  # All elements in this are other Location() classes.
-        self.itemsHere = list() # The items at this location on the ground
-
-    def canGoTo(self, dest):
-        ''' Can we go to the destination from here? '''
-        return dest in self.connections
-
-# The item class
-class Item():
-    def __init__(self, printName, desc, canTake):
-        self.printName = printName # The "pretty" name it uses in the game
-        self.desc = desc # The description it uses, which is what the player will see
-        self.canTake = canTake # Can this item be taken and picked up?
-
-
-    def useWith(item, location):
-        '''Use the item with another item.'''
-        return True # Placeholder
-
-# Make a connection between two points.
-def makeConnection(pointA, pointB):
-    if not pointB in pointA.connections:
-        pointA.connections.append(pointB)
-        
-    if not pointA in pointB.connections:
-        pointB.connections.append(pointA)
 
 # Small function I wrote a while back to get keypresses
 def getKey(screen):
@@ -59,7 +26,7 @@ def nextMenu(screen):
     screen.refresh()
     return key
 
-# Set up locations
+
 yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
 yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from here.")
 outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
@@ -83,7 +50,6 @@ makeConnection(yourLawn, yourShed)
 makeConnection(outside, yourBlock)
 makeConnection(yourBlock, blockRoad)
 makeConnection(blockRoad, townSquare)
-
 
 def main(stdscr):  
     currentLocation = yourComputer
