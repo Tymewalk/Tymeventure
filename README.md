@@ -8,10 +8,12 @@ You will need:
 
 Download the .zip of the game. In the future you really should go to the Releases tab, but there's not much here right now so you can go ahead and just download the latest commit.
 
-Exctract it into a folder. Enter that folder, then:
+Exctract it into a folder. Enter that folder, then run `python setup.py build`.
+After that, run `python setup.py install`.
+Run `tymeventure` to play the game.
 
- - On Windows: Double-click tymeventure.py to launch it
- - On Linux: Use "python3.4 tymeventure.py"
+## I have an old version installed. Do I need to uninstall it to update?
+No, you don't. Just re-run the setup instructions and it'll work fine.
 
 ## Uh, there's a problem!
 Simply report an issue and I'll get to it.
