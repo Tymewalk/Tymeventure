@@ -59,10 +59,20 @@ def main(stdscr):
         stdscr.addstr(1, 0, location, curses.color_pair(0) | curses.A_BOLD)
         description = currentLocation.desc
         stdscr.addstr(2, 0, description, curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(3, 0, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(4, 0, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(5, 0, "(T)hings here", curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(6, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
+        # Detect how many items are here
+        if not currentLocation.itemsHere == []:
+            if len(currentLocation.itemsHere) == 1:
+                itemsHereBar = "There is one item here."
+            else:
+
+                itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
+        else:
+            itemsHereBar = "There are no items here."
+        stdscr.addstr(3, 0, itemsHereBar, curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(4, 0, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(5, 0, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(6, 0, "(T)hings here", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(7, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
         choice = getKey(stdscr).lower() # Case doesn't matter
         # Clear before we process so we can print other stuff
         stdscr.clear()
