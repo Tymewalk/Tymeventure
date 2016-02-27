@@ -1,4 +1,4 @@
-# TYMEVENTURE v0.0.1+
+# TYMEVENTURE v0.0.2
 # Status: Playable (but not that good XD)
 # A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
@@ -65,7 +65,9 @@ yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from
 outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
 yourLawn = Location("Your Lawn", "Your lawn. It's surrounded by fences, behind which are your neighbors' houses.")
 yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. You keep saying you'll clean it out, but you never do.")
-town = Location("Town", "Your town. There's a lot of people. Must be a busy day.")
+yourBlock = Location("Your Block", "Your block. You see your neighbors' houses around you.")
+blockRoad = Location("Block Road", "The road for your block. You can see the town square up ahead.")
+townSquare = Location("Town Square", "The town square. There's a lot of people. Must be a busy day.")
 
 # Set up items
 hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
@@ -78,7 +80,9 @@ makeConnection(yourComputer, yourDoorstep)
 makeConnection(yourDoorstep, outside)
 makeConnection(outside, yourLawn)
 makeConnection(yourLawn, yourShed)
-makeConnection(outside, town)
+makeConnection(outside, yourBlock)
+makeConnection(yourBlock, blockRoad)
+makeConnection(blockRoad, townSquare)
 
 
 def main(stdscr):  
