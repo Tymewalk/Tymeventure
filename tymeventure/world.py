@@ -45,8 +45,13 @@ townSquare = Location("Town Square", "The town square. There's a lot of people. 
 
 # Set up items
 hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
+memoComputer = Item("Memo", "A memo you found taped to your computer. It reads \"Clean Out Shed\".", True)
+
+# The player is a special item
+playerItem = Item("Player", "A player item never used in game. It's meant to work with Item.useWith().", False)
 
 # Set up items in the world
+yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
 
 # Make connections
