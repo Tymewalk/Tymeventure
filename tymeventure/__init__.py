@@ -30,7 +30,8 @@ def main(stdscr):
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
-    stdscr.addstr(0, 0, 'Welcome to Tymeventure! Press any key to continue.', curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(0, 0, 'Welcome to Tymeventure!', curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
     nextMenu(stdscr)    
     stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
     stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
@@ -39,7 +40,7 @@ def main(stdscr):
     stdscr.refresh()
     adventureAnnounce = "OK " + playerName + ", are you ready?"
     stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "Press any key to advance...", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "-- Press any key to advance --", curses.color_pair(1) | curses.A_BOLD)
     nextMenu(stdscr)
     stdscr.addstr(0, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
     stdscr.addstr(1, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
@@ -161,6 +162,7 @@ def main(stdscr):
                 if choice == "1":
                     stdscr.addstr(0, 0, itemInQuestion.printName, curses.color_pair(0) | curses.A_BOLD)
                     stdscr.addstr(1, 0, itemInQuestion.desc, curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(2, 0, '-- Press any key to exit --', curses.color_pair(0) | curses.A_BOLD)
                     nextMenu(stdscr)
                 elif choice == "2":
                     currentLocation.itemsHere.append(itemInQuestion)
@@ -183,12 +185,12 @@ def runGame():
         curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(5, curses.COLOR_WHITE, curses.COLOR_RED)
-        main(stdscr)                    # Enter the main loop
+        main(stdscr)
     except KeyboardInterrupt:
-        pass # I may need something here later
+        pass # For save games in the future
     finally:
         stdscr.erase()
         stdscr.refresh()
         stdscr.keypad(0)
         curses.echo() ; curses.nocbreak()
-        curses.endwin()                 # Terminate curses
+        curses.endwin()
