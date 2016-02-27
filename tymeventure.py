@@ -61,11 +61,11 @@ def nextMenu(screen):
 
 # Set up locations
 yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
-yourDoorstep = Location("Your Doorstep", "Your doorstep. You could go outside if you wanted.")
-outside = Location("Outside", "Outside your house. It sure looks scary. Perhaps you should stay on the internet.")
-yourLawn = Location("Your Lawn", "Your lawn. There's grass here. Obviously. It smells nice. Maybe you should stay here.")
+yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from here.")
+outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
+yourLawn = Location("Your Lawn", "Your lawn. It's surrounded by fences, behind which are your neighbors' houses.")
 yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. You keep saying you'll clean it out, but you never do.")
-town = Location("Town", "Your town. There's a lot of people. Ugh, people. They're SO overrated.")
+town = Location("Town", "Your town. There's a lot of people. Must be a busy day.")
 
 # Set up items
 hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
@@ -102,14 +102,22 @@ def main(stdscr):
 
     genderConfirm = "Got it, you chose " + gender + "."
     stdscr.addstr(0, 0, genderConfirm, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "What's your name? (max 24 characters)", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(2, 0, '> ', curses.color_pair(0) | curses.A_BOLD)
-    playerName = stdscr.getstr(2, 2, 24).decode('utf8')
+    stdscr.addstr(1, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(2, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
+    playerName = stdscr.getstr(2, 6, 30).decode('utf8')
     stdscr.clear()
     stdscr.refresh()
-    topbar = "OK " + playerName + ", you chose " + gender + " as your gender."
-    stdscr.addstr(0, 0, topbar, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, "Now get out there and do some adventuring!", curses.color_pair(0) | curses.A_BOLD)
+    adventureAnnounce = "OK " + playerName + " the " + gender + ", are you ready?"
+    stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "Press any key to advance...", curses.color_pair(0) | curses.A_BOLD)
+    nextMenu(stdscr)
+    stdscr.addstr(0, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(1, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(2, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(3, 0, "But today feels... different.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(4, 0, "Something compels you to go outside today, as if you know something's about to happen.", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(5, 0, "You decide to close the computer, and head outside, ready to explore the world...", curses.color_pair(0) | curses.A_BOLD)
+    stdscr.addstr(6, 0, "-- Press any key to begin --", curses.color_pair(1) | curses.A_BOLD)
     nextMenu(stdscr)
 
     continueGame = True
@@ -125,7 +133,7 @@ def main(stdscr):
         stdscr.addstr(5, 0, "(T)hings here", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(6, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
         choice = getKey(stdscr).lower() # Case doesn't matter
-        # Clear before we process so we can print
+        # Clear before we process so we can print other stuff
         stdscr.clear()
         stdscr.refresh()
         if choice == "q":
