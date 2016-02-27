@@ -23,6 +23,4 @@ Make a pull request and I'll check it over. If it's good (as in it doesn't intro
 
 ## I have an idea!
 Suggest ideas on [the Scratch topic](https://scratch.mit.edu/discuss/topic/185267/).
-
-### But I don't have a Scratch account!
-Then make an issue that has a title starting with `[IDEA]`. I'll tag it as such so I don't get confused. When your idea is added/rejected (for whatever reason)/has to be closed, I'll mark it as closed.
+Alternatively, you can make a pull request and add your idea to IDEAS.md.
