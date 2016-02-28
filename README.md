@@ -14,6 +14,8 @@ Run `tymeventure` to play the game.
 
 ## Command-line Arguments
 `-h, --help`: Show help
+`-n, --name NAME`: Set your name
+`--nocolor`: Don't use colors
 
 ## I have an old version installed. Do I need to uninstall it to update?
 Nope! Just go through the installation instructions and it'll automatically update.
