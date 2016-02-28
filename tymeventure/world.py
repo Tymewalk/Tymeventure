@@ -1,3 +1,5 @@
+from misc import nextMenu
+
 # The location class
 class Location():
     def __init__(self, printName, desc):
@@ -19,8 +21,9 @@ class Item():
         self.canTake = canTake # Can this item be taken and picked up?
 
 
-    def useWith(self, item, location, inv):
+    def useWith(self, stdscr, item, location, inv):
         '''Use the item with another item.'''
+        # stdscr is the screen
         # item is the item to use it with
         # location is where we are
         # inv is the player's inventory, in case we consume something

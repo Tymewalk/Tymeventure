@@ -13,20 +13,10 @@ import curses # Curses! You've foiled my plan!
 import pickle # For savegames later on
 from world import *
 from commandline import * # In theory this should just execute the code and allow us to keep the code neat
+from misc import * # Misc functions
 
 inventory = list() # The player's inventory
 
-# Small function I wrote a while back to get keypresses
-def getKey(screen):
-    return chr(screen.getch())
-
-# Convienience function to quickly make menus that can be skipped through like the intro
-# Also returns a key if you want multi-choice menus. Nifty.
-def nextMenu(screen):
-    key = getKey(screen)
-    screen.clear()
-    screen.refresh()
-    return key
 
 def main(stdscr):  
     currentLocation = yourComputer
@@ -210,7 +200,7 @@ def main(stdscr):
                         checkItem = False
                         
                     if checkItem:
-                        itemInQuestion.useWith(itemToUseWith, currentLocation, inventory)
+                        itemInQuestion.useWith(stdscr, itemToUseWith, currentLocation, inventory)
                         
                 else:
                     pass
