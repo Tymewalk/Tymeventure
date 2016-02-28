@@ -12,8 +12,11 @@ Exctract it into a folder. Enter that folder, then run `python setup.py build`.
 After that, run `python setup.py install`.
 Run `tymeventure` to play the game.
 
+## Command-line Arguments
+`-h, --help`: Show help
+
 ## I have an old version installed. Do I need to uninstall it to update?
-No, you don't. Just re-run the setup instructions and it'll work fine.
+Nope! Just go through the installation instructions and it'll automatically update.
 
 ## Uh, there's a problem!
 Simply report an issue and I'll get to it.
