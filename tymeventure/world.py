@@ -1,4 +1,5 @@
 from misc import nextMenu
+import curses
 
 # The location class
 class Location():
@@ -49,12 +50,35 @@ blockRoad = Location("Block Road", "The road for your block. You can see the tow
 townSquare = Location("Town Square", "The town square. There's a lot of people. Must be a busy day.")
 
 # Set up items
-hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
 memoComputer = Item("Memo", "A memo you found taped to your computer. It reads \"Clean Out Shed\".", True)
+hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
 
 # The player is a special item
 playerItem = Item("Player", "A player item never used in game. It's meant to work with Item.useWith().", False)
 
+# Item use code
+
+# Memo
+def use(stdscr, item, location, inv):
+    if item == playerItem:
+        stdscr.addstr(0, 0, "You mess around with the note. It's just paper. You stick it back in your pocket.", curses.color_pair(0) | curses.A_BOLD)
+    else:
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+    nextMenu(stdscr)
+
+memoComputer.useWith = use # It's the function itself, not the function being called
+
+# Hedgeclippers
+def use(stdscr, item, location, inv):
+    if item == playerItem:
+        stdscr.addstr(0, 0, "They look sharp. It's probably best not to do that.", curses.color_pair(0) | curses.A_BOLD)
+    else:
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+    nextMenu(stdscr)
+
+hedgeclippers.useWith = use
+
+    
 # Set up items in the world
 yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
