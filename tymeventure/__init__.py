@@ -173,6 +173,8 @@ def main(stdscr):
                     currentLocation.itemsHere.append(itemInQuestion)
                     inventory.remove(itemInQuestion)
                 elif choice == "3":
+                    ypos = 0
+                    stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                     for item in inventory:
                         if not item == itemInQuestion:
                             label = "|(" + str(keycount) + ")" + item.printName
