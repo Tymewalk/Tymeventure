@@ -17,19 +17,21 @@ from misc import * # Misc functions
 
 inventory = list() # The player's inventory
 
-
 def main(stdscr):  
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
     stdscr.addstr(0, 0, 'Welcome to Tymeventure!', curses.color_pair(0) | curses.A_BOLD)
     stdscr.addstr(1, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
-    nextMenu(stdscr)    
-    stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
-    playerName = stdscr.getstr(1, 6, 30).decode('utf8')
-    stdscr.clear()
-    stdscr.refresh()
+    nextMenu(stdscr)
+    if not args.name: # If we didn't set a name already, prompt the user now
+        stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
+        playerName = stdscr.getstr(1, 6, 30).decode('utf8')
+        stdscr.clear()
+        stdscr.refresh()
+    else:
+        playerName = args.name
     adventureAnnounce = "OK " + playerName + ", get ready to play..."
     stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
     stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
@@ -215,11 +217,10 @@ def runGame():
         curses.cbreak() # ; curses.noecho() # Uncomment if desired/needed
         curses.start_color()
         stdscr.keypad(1)
-        curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
-        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-        curses.init_pair(3, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-        curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
-        curses.init_pair(5, curses.COLOR_WHITE, curses.COLOR_RED)
+        if args.nocolor:            
+            curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        else:            
+            curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
         main(stdscr)
     except KeyboardInterrupt:
         pass # For save games in the future
