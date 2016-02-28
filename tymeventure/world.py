@@ -3,7 +3,6 @@ class Location():
     def __init__(self, printName, desc):
         self.printName = printName # The "pretty" name it uses in the game
         self.desc = desc # The description it uses, which is what the player will see
-
         self.connections = list() # A list of all the places you can go to from this place
                                   # All elements in this are other Location() classes.
         self.itemsHere = list() # The items at this location on the ground
@@ -20,7 +19,7 @@ class Item():
         self.canTake = canTake # Can this item be taken and picked up?
 
 
-    def useWith(item, location):
+    def useWith(self, item, location):
         '''Use the item with another item.'''
         return True # Placeholder
     

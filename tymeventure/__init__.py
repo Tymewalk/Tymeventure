@@ -10,7 +10,9 @@
 # - Better use of colors
 
 import curses # Curses! You've foiled my plan!
+import pickle # For savegames later on
 from world import *
+from commandline import * # In theory this should just execute the code and allow us to keep the code neat
 
 inventory = list() # The player's inventory
 
@@ -164,7 +166,10 @@ def main(stdscr):
                 option = "(2)Drop Item"
                 stdscr.addstr(2, 0, option + " " * (40 - len(option)), curses.color_pair(0) | curses.A_BOLD)
                 stdscr.addstr(2, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
-                stdscr.addstr(3, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+                option = "(3)Use Item"
+                stdscr.addstr(3, 0, option + " " * (40 - len(option)), curses.color_pair(0) | curses.A_BOLD)
+                stdscr.addstr(3, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                stdscr.addstr(4, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -175,6 +180,38 @@ def main(stdscr):
                 elif choice == "2":
                     currentLocation.itemsHere.append(itemInQuestion)
                     inventory.remove(itemInQuestion)
+                elif choice == "3":
+                    for item in inventory:
+                        if not item == itemInQuestion:
+                            label = "|(" + str(keycount) + ")" + item.printName
+                            stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
+                            stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                            ypos += 1
+                            keycount += 1
+                            
+                    label = "|(0) Yourself"
+                    stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                    ypos += 1
+                    stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(ypos + 1, 0, "Press an item's key to do use it, or anything else to exit.", curses.color_pair(0) | curses.A_BOLD)
+                    choice = nextMenu(stdscr)
+                    checkItem = False
+                    if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+                        if int(choice) - 1 < len(inventory):
+                            checkItem = True
+                            itemToUseWith = inventory[int(choice) - 1]
+                        else:
+                            checkItem = False
+                    elif choice == "0": # If it's the player being used...
+                        itemToUseWith = playerItem
+                        checkItem = True
+                    else:
+                        checkItem = False
+                        
+                    if checkItem:
+                        itemInQuestion.useWith(itemToUseWith, currentLocation)
+                        
                 else:
                     pass
             
