@@ -8,14 +8,15 @@ You will need:
 
 Download the .zip of the game. In the future you really should go to the Releases tab, but there's not much here right now so you can go ahead and just download the latest commit.
 
-Exctract it into a folder. Enter that folder, then run `python setup.py build`.
-After that, run `python setup.py install`.
+Exctract it into a folder. Enter that folder, then run `python setup.py build`.<br>
+After that, run `python setup.py install`. (You may need to run with `sudo` on Linux.)<br>
 Run `tymeventure` to play the game.
 
 ## Command-line Arguments
-`-h, --help`: Show help
-`-n, --name NAME`: Set your name
-`--nocolor`: Don't use colors
+
+- `-h, --help`: Show help
+- `-n, --name NAME`: Set your name
+- `--nocolor`: Don't use colors
 
 ## I have an old version installed. Do I need to uninstall it to update?
 Nope! Just go through the installation instructions and it'll automatically update.
@@ -27,5 +28,5 @@ Simply report an issue and I'll get to it.
 Make a pull request and I'll check it over. If it's good (as in it doesn't introduce more bugs or go against the goal of the project), then I'll add it in.
 
 ## I have an idea!
-Suggest ideas on [the Scratch topic](https://scratch.mit.edu/discuss/topic/185267/).
+Suggest ideas on [the Scratch topic](https://scratch.mit.edu/discuss/topic/185267/).<br>
 Alternatively, you can make a pull request and add your idea to IDEAS.md.
