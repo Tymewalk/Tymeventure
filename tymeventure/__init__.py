@@ -210,7 +210,7 @@ def main(stdscr):
                         checkItem = False
                         
                     if checkItem:
-                        itemInQuestion.useWith(itemToUseWith, currentLocation)
+                        itemInQuestion.useWith(itemToUseWith, currentLocation, inventory)
                         
                 else:
                     pass
