@@ -1,5 +1,6 @@
 from misc import nextMenu
 import curses
+import random
 
 # The location class
 class Location():
@@ -40,7 +41,8 @@ def makeConnection(pointA, pointB):
 
 
 # Set up locations
-yourComputer = Location("Your Computer", "Your wonderful computer, where you use the internet. You feel like you shouldn't be here.")
+yourComputer = Location("Your Computer", "Your computer, where you use the internet. You feel like you shouldn't be here.")
+yourBedroom = Location("Your Bedroom", "Your bedroom, where you sleep.")
 yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from here.")
 outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
 yourLawn = Location("Your Lawn", "Your lawn. It's surrounded by fences, behind which are your neighbors' houses.")
@@ -48,10 +50,12 @@ yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. 
 yourBlock = Location("Your Block", "Your block. You see your neighbors' houses around you.")
 blockRoad = Location("Block Road", "The road for your block. You can see the town square up ahead.")
 townSquare = Location("Town Square", "The town square. There's a lot of people. Must be a busy day.")
+townMall = Location("Town Mall", "The mall for the town. Many people come here to shop and chat with one another. Today is no exception.")
 
 # Set up items
 memoComputer = Item("Memo", "A memo you found taped to your computer. It reads \"Clean Out Shed\".", True)
 hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
+penny = Item("Penny", "A penny you found on the ground. Must be your lucky day.", True)
 
 # The player is a special item
 playerItem = Item("Player", "A player item never used in game. It's meant to work with Item.useWith().", False)
@@ -78,16 +82,29 @@ def use(stdscr, item, location, inv):
 
 hedgeclippers.useWith = use
 
+# Penny
+def use(stdscr, item, location, inv):
+    if item == playerItem:
+        stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", curses.color_pair(0) | curses.A_BOLD)
+    else:
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+    nextMenu(stdscr)
+
+penny.useWith = use
+
     
 # Set up items in the world
 yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
+townMall.itemsHere = [penny]
 
 # Make connections
 makeConnection(yourComputer, yourDoorstep)
+makeConnection(yourComputer, yourBedroom)
 makeConnection(yourDoorstep, outside)
 makeConnection(outside, yourLawn)
 makeConnection(yourLawn, yourShed)
 makeConnection(outside, yourBlock)
 makeConnection(yourBlock, blockRoad)
 makeConnection(blockRoad, townSquare)
+makeConnection(townSquare, townMall)
