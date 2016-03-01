@@ -1,29 +1,36 @@
-# TYMEVENTURE v0.0.2
+# TYMEVENTURE v0.1.0
 # Status: Stable
 # A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
 #
 # TODO:
 # - Develop some story
-# - Allow players to use items, even on themselves
-# - Let players know if there's an item where they are
 # - Better use of colors
+# - MUCH bigger world
+# - Make some items that can actually be used together
+# - Savegames
 
 import curses # Curses! You've foiled my plan!
 import pickle # For savegames later on
-from world import *
-from commandline import * # In theory this should just execute the code and allow us to keep the code neat
+from world import * # The world
+from commandline import * # This just executes the code and allow us to keep the code neat
 from misc import * # Misc functions
 
 inventory = list() # The player's inventory
+
+version = "0.1.0"
 
 def main(stdscr):  
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
-    stdscr.addstr(0, 0, 'Welcome to Tymeventure!', curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(1, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
-    nextMenu(stdscr)
+    if not args.nointro:
+        stdscr.addstr(0, 0, 'Welcome to Tymeventure!', curses.color_pair(0) | curses.A_BOLD)
+        versionBar = "You have version " + version + "."
+        stdscr.addstr(1, 0, versionBar, curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(2, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
+        nextMenu(stdscr)
+        
     if not args.name: # If we didn't set a name already, prompt the user now
         stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
@@ -32,16 +39,18 @@ def main(stdscr):
         stdscr.refresh()
     else:
         playerName = args.name
-    adventureAnnounce = "OK " + playerName + ", get ready to play..."
-    stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(3, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(4, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(5, 0, "But today feels... different.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(6, 0, "Something compels you to go outside today, as if you know something's about to happen.", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(7, 0, "You decide to close the computer, and head outside, ready to explore the world...", curses.color_pair(0) | curses.A_BOLD)
-    stdscr.addstr(8, 0, "-- Press any key to begin --", curses.color_pair(1) | curses.A_BOLD)
-    nextMenu(stdscr)
+        
+    if not args.nointro:
+        adventureAnnounce = "OK " + playerName + ", get ready to play..."
+        stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(3, 0, "Once again, like every morning, you log onto the internet and check for new messages.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(4, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(5, 0, "But today feels... different.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(6, 0, "Something compels you to go outside today, as if you know something's about to happen.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(7, 0, "You decide to close the computer, and head outside, ready to explore the world...", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(8, 0, "-- Press any key to begin --", curses.color_pair(1) | curses.A_BOLD)
+        nextMenu(stdscr)
 
     continueGame = True
     while continueGame:
@@ -52,28 +61,23 @@ def main(stdscr):
         description = currentLocation.desc
         stdscr.addstr(2, 0, description, curses.color_pair(0) | curses.A_BOLD)
         # Detect how many items are here
-        if not currentLocation.itemsHere == []:
-            if len(currentLocation.itemsHere) == 1:
-                itemsHereBar = "There is one item here."
-            else:
-
-                itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
-        else:
+        if currentLocation.itemsHere == []:
             itemsHereBar = "There are no items here."
+        elif len(currentLocation.itemsHere) == 1:
+            itemsHereBar = "There is one item here."
+        else:
+            itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
         stdscr.addstr(3, 0, itemsHereBar, curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(4, 0, "(Q)uit", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(5, 0, "(M)ove", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(6, 0, "(T)hings here", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(7, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
-        choice = getKey(stdscr).lower() # Case doesn't matter
-        # Clear before we process so we can print other stuff
-        stdscr.clear()
-        stdscr.refresh()
+        choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
         if choice == "q":
             continueGame = False
         elif choice == "m":
             ypos = 1
-            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             keycount = 1
             for place in currentLocation.connections:
                 label = "|(" + str(keycount) + ")" + place.printName
@@ -90,7 +94,7 @@ def main(stdscr):
                     currentLocation = moveTo # Move us
         elif choice == "t":
             ypos = 1
-            stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             keycount = 1
             if currentLocation.itemsHere == []:
                 stdscr.addstr(ypos, 0, "|There is nothing here.                |", curses.color_pair(0) | curses.A_BOLD)
@@ -136,14 +140,14 @@ def main(stdscr):
                 for item in inventory:
                     label = "|(" + str(keycount) + ")" + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                     ypos += 1
                     keycount += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             stdscr.addstr(ypos + 1, 0, "Press an item's key to do something with it, or anything else to exit.", curses.color_pair(0) | curses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
-            if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+            if choice in "123456789":
                 if int(choice) - 1 < len(inventory):
                     checkItem = True
                     itemInQuestion = inventory[int(choice) - 1]
@@ -157,10 +161,10 @@ def main(stdscr):
                 stdscr.addstr(1, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                 option = "(2)Drop Item"
                 stdscr.addstr(2, 0, option + " " * (40 - len(option)), curses.color_pair(0) | curses.A_BOLD)
-                stdscr.addstr(2, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                stdscr.addstr(2, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                 option = "(3)Use Item"
                 stdscr.addstr(3, 0, option + " " * (40 - len(option)), curses.color_pair(0) | curses.A_BOLD)
-                stdscr.addstr(3, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                stdscr.addstr(3, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                 stdscr.addstr(4, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
@@ -173,19 +177,19 @@ def main(stdscr):
                     currentLocation.itemsHere.append(itemInQuestion)
                     inventory.remove(itemInQuestion)
                 elif choice == "3":
-                    ypos = 0
+                    ypos = 1
                     stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                     for item in inventory:
                         if not item == itemInQuestion:
                             label = "|(" + str(keycount) + ")" + item.printName
                             stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
-                            stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                            stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                             ypos += 1
                             keycount += 1
                             
                     label = "|(0) Yourself"
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
+                    stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                     ypos += 1
                     stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                     stdscr.addstr(ypos + 1, 0, "Press an item's key to do use it, or anything else to exit.", curses.color_pair(0) | curses.A_BOLD)
@@ -198,7 +202,7 @@ def main(stdscr):
                         else:
                             checkItem = False
                     elif choice == "0": # If it's the player being used...
-                        itemToUseWith = playerItem
+                        itemToUseWith = playerItem # ...then use the special player item.
                         checkItem = True
                     else:
                         checkItem = False
@@ -225,7 +229,7 @@ def runGame():
             curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
         main(stdscr)
     except KeyboardInterrupt:
-        pass # For save games in the future
+        pass # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
     finally:
         stdscr.erase()
         stdscr.refresh()
