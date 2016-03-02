@@ -20,7 +20,7 @@ inventory = list() # The player's inventory
 
 version = "0.1.0"
 
-def main(stdscr):  
+def gameLoop(stdscr):  
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
@@ -144,7 +144,7 @@ def main(stdscr):
                     ypos += 1
                     keycount += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "Press an item's key to do something with it, or anything else to exit.", curses.color_pair(0) | curses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "-- Press an item's key to do something with it, or anything else to exit --", curses.color_pair(1) | curses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789":
@@ -171,7 +171,7 @@ def main(stdscr):
                 if choice == "1":
                     stdscr.addstr(0, 0, itemInQuestion.printName, curses.color_pair(0) | curses.A_BOLD)
                     stdscr.addstr(1, 0, itemInQuestion.desc, curses.color_pair(0) | curses.A_BOLD)
-                    stdscr.addstr(2, 0, '-- Press any key to exit --', curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(2, 0, '-- Press any key to exit --', curses.color_pair(1) | curses.A_BOLD)
                     nextMenu(stdscr)
                 elif choice == "2":
                     currentLocation.itemsHere.append(itemInQuestion)
@@ -192,7 +192,7 @@ def main(stdscr):
                     stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                     ypos += 1
                     stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-                    stdscr.addstr(ypos + 1, 0, "Press an item's key to do use it, or anything else to exit.", curses.color_pair(0) | curses.A_BOLD)
+                    stdscr.addstr(ypos + 1, 0, "-- Press an item's key to use it, or anything else to exit --", curses.color_pair(1) | curses.A_BOLD)
                     choice = nextMenu(stdscr)
                     checkItem = False
                     if choice in "123456789": # Make sure it's a number, the game crashes otherwise
@@ -217,7 +217,7 @@ def main(stdscr):
             pass
 
 
-def runGame():
+def main():
     try:
         stdscr = curses.initscr()
         curses.cbreak() # ; curses.noecho() # Uncomment if desired/needed
@@ -227,7 +227,7 @@ def runGame():
             curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         else:            
             curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
-        main(stdscr)
+        gameLoop(stdscr)
     except KeyboardInterrupt:
         pass # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
     finally:
