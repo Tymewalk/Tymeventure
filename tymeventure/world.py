@@ -30,6 +30,11 @@ class Item():
         # location is where we are
         # inv is the player's inventory, in case we consume something
         return True # Placeholder
+
+    def onPickup(self, stdscr, item, location, inv):
+        '''When the item is picked up, run the code in this function.'''
+        # For example, when we pick up the magic ring, it glows and attaches itself to our hand
+        return True # Placeholder
     
 # Make a connection between two points.
 def makeConnection(pointA, pointB):
@@ -43,7 +48,7 @@ def makeConnection(pointA, pointB):
 # Set up locations
 yourComputer = Location("Your Computer", "Your computer, where you use the internet. You feel like you shouldn't be here.")
 yourBedroom = Location("Your Bedroom", "Your bedroom, where you sleep.")
-yourDoorstep = Location("Your Doorstep", "Your doorstep. You can go outside from here.")
+yourDoorstep = Location("Your Doorstep", "The doorstep of your house.")
 outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
 yourLawn = Location("Your Lawn", "Your lawn. It's surrounded by fences, behind which are your neighbors' houses.")
 yourShed = Location("Your Shed", "Your shed. You've dumped a lot of stuff here. You keep saying you'll clean it out, but you never do.")
@@ -51,6 +56,23 @@ yourBlock = Location("Your Block", "Your block. You see your neighbors' houses a
 blockRoad = Location("Block Road", "The road for your block. You can see the town square up ahead.")
 townSquare = Location("Town Square", "The town square. There's a lot of people. Must be a busy day.")
 townMall = Location("Town Mall", "The mall for the town. Many people come here to shop and chat with one another. Today is no exception.")
+townRoad = Location("Town Road", "The road running along the center of the town. Not many people go here.")
+townOutskirts = Location("Town Outskirts", "The outskirts of town. Many adventurers are afraid to go deeper into the forest.")
+forestEntry = Location("Forest Entry", "The entry to the forest. Many adventurers have perished in these woods.")
+
+# Make connections
+makeConnection(yourComputer, yourDoorstep)
+makeConnection(yourComputer, yourBedroom)
+makeConnection(yourDoorstep, outside)
+makeConnection(outside, yourLawn)
+makeConnection(yourLawn, yourShed)
+makeConnection(outside, yourBlock)
+makeConnection(yourBlock, blockRoad)
+makeConnection(blockRoad, townSquare)
+makeConnection(townSquare, townMall)
+makeConnection(townSquare, townRoad)
+makeConnection(townRoad, townOutskirts)
+makeConnection(townOutskirts, forestEntry)
 
 # Set up items
 memoComputer = Item("Memo", "A memo you found taped to your computer. It reads \"Clean Out Shed\".", True)
@@ -65,7 +87,7 @@ playerItem = Item("Player", "A player item never used in game. It's meant to wor
 # Memo
 def use(stdscr, item, location, inv):
     if item == playerItem:
-        stdscr.addstr(0, 0, "You mess around with the note. It's just paper. You stick it back in your pocket.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", curses.color_pair(0) | curses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
@@ -85,6 +107,7 @@ hedgeclippers.useWith = use
 # Penny
 def use(stdscr, item, location, inv):
     if item == playerItem:
+        # The coin actually flips :o
         stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", curses.color_pair(0) | curses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
@@ -97,14 +120,3 @@ penny.useWith = use
 yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
 townMall.itemsHere = [penny]
-
-# Make connections
-makeConnection(yourComputer, yourDoorstep)
-makeConnection(yourComputer, yourBedroom)
-makeConnection(yourDoorstep, outside)
-makeConnection(outside, yourLawn)
-makeConnection(yourLawn, yourShed)
-makeConnection(outside, yourBlock)
-makeConnection(yourBlock, blockRoad)
-makeConnection(blockRoad, townSquare)
-makeConnection(townSquare, townMall)
