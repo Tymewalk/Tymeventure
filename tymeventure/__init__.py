@@ -43,6 +43,8 @@ def gameLoop(stdscr):
     else:
         playerName = args.name
         
+    loadGame(playerName)
+        
     if not args.nointro:
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
         stdscr.addstr(0, 0, adventureAnnounce, curses.color_pair(0) | curses.A_BOLD)
@@ -231,12 +233,13 @@ def saveGame( name ):
 
 def loadGame( name ):
     savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-    savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-    allData = pickle.load(savefile_open)
-    currentLocation = allData[0]
-    inventory = allData[1]
-    locations = allData[2]
-    hasSave = True
+    if os.path.exists("".join([os.getcwd(), "/", savename]):
+        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+        allData = pickle.load(savefile_open)
+        currentLocation = allData[0]
+        inventory = allData[1]
+        locations = allData[2]
+        hasSave = True
 
 def main():
     try:
