@@ -2,6 +2,8 @@ from misc import nextMenu
 import curses
 import random
 
+locations = list()
+
 # The location class
 class Location():
     def __init__(self, printName, desc):
@@ -9,10 +11,13 @@ class Location():
         self.desc = desc # The description it uses, which is what the player will see
         self.connections = list() # A list of all the places you can go to from this place
                                   # All elements in this are other Location() classes.
-        self.itemsHere = list() # The items at this location on the ground
+        self.itemsHere = list() # The items at this location on the ground, in Item() classes
+        locations.append(self)
 
     def canGoTo(self, dest):
         ''' Can we go to the destination from here? '''
+        # A good example of when to use this is if we have the super detector that
+        # shimmers when we're near the magic castle
         return dest in self.connections
     
 # The item class
@@ -82,30 +87,30 @@ penny = Item("Penny", "A penny you found on the ground. Must be your lucky day."
 # The player is a special item
 playerItem = Item("Player", "A player item never used in game. It's meant to work with Item.useWith().", False)
 
-# Item use code
+# Code for using items
 
 # Memo
-def use(stdscr, item, location, inv):
+def memoComputerUse(stdscr, item, location, inv):
     if item == playerItem:
         stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", curses.color_pair(0) | curses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
 
-memoComputer.useWith = use # It's the function itself, not the function being called
+memoComputer.useWith = memoComputerUse # It's the function itself, not the function being called
 
 # Hedgeclippers
-def use(stdscr, item, location, inv):
+def hedgeclippersUse(stdscr, item, location, inv):
     if item == playerItem:
         stdscr.addstr(0, 0, "They look sharp. It's probably best not to do that.", curses.color_pair(0) | curses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
 
-hedgeclippers.useWith = use
+hedgeclippers.useWith = hedgeclippersUse
 
 # Penny
-def use(stdscr, item, location, inv):
+def pennyUse(stdscr, item, location, inv):
     if item == playerItem:
         # The coin actually flips :o
         stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", curses.color_pair(0) | curses.A_BOLD)
@@ -113,9 +118,8 @@ def use(stdscr, item, location, inv):
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
     nextMenu(stdscr)
 
-penny.useWith = use
+penny.useWith = pennyUse
 
-    
 # Set up items in the world
 yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
