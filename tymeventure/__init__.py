@@ -221,7 +221,8 @@ def gameLoop(stdscr):
             pass
 
 def saveGame( name ):
-        allData = [currentLocation, inventory, locations]
+        allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+        # Temp file for safety
         savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
         tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
         savefile_out = open(tmpname, "wb")
