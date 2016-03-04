@@ -221,22 +221,22 @@ def gameLoop(stdscr):
             pass
 
 def saveGame( name ):
-        allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-        # Temp file for safety
-        savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-        tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
-        savefile_out = open(tmpname, "wb")
-        pickle.dump(allData, savefile_out)
-        os.rename(tmpname, savename)
+    allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+    # Temp file for safety
+    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+    tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
+    savefile_out = open(tmpname, "wb")
+    pickle.dump(allData, savefile_out)
+    os.rename(tmpname, savename)
 
 def loadGame( name ):
-        savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-        allData = pickle.load(savefile_open)
-        currentLocation = allData[0]
-        inventory = allData[1]
-        locations = allData[2]
-        hasSave = True
+    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+    savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+    allData = pickle.load(savefile_open)
+    currentLocation = allData[0]
+    inventory = allData[1]
+    locations = allData[2]
+    hasSave = True
 
 def main():
     try:
