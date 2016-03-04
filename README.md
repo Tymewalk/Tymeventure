@@ -18,6 +18,12 @@ Run `tymeventure` to play the game.
 - `-h, --help`: Show help
 - `-n, --name NAME`: Set your name
 - `--nocolor`: Don't use colors
+- `--nointro`: Skip the intro
+
+## What's with the savegames?
+The save automatically loads from the current directory - so wherever you launch Tymeventure from is your save directory.
+To remove a save, delete the file labeled `YOURNAME_tymeventuresave`.
+I reccomend making a save directory called `TymeventureSaves` and `cd`ing into that when you play.
 
 ## Where's the Wiki?
 You can find the Tymeventure Wikia [here](https://tymeventure.wikia.com).
