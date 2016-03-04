@@ -8,7 +8,7 @@
 # - Better use of colors
 # - MUCH bigger world
 # - Make some items that can actually be used together
-# - Savegames
+# - Savegames (working in this branch)
 
 # I'll have to use something like UniCurses if I want to have people use this on Windows
 import curses
@@ -16,6 +16,7 @@ import pickle # For savegames later on
 from world import * # The world
 from commandline import * # This just executes the code and allow us to keep the code neat
 from misc import * # Misc functions
+import os, sys # I just generally import both at once
 
 inventory = list() # The player's inventory
 
@@ -76,6 +77,7 @@ def gameLoop(stdscr):
         stdscr.addstr(7, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
         choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
         if choice == "q":
+            saveGame( playerName )
             continueGame = False
         elif choice == "m":
             ypos = 1
@@ -218,6 +220,13 @@ def gameLoop(stdscr):
         else:
             pass
 
+def saveGame( name ):
+        allData = [currentLocation, inventory, locations]
+        savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+        tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
+        savefile_out = open(tmpname, "wb")
+        pickle.dump(allData, savefile_out)
+        os.rename(tmpname, savename)
 
 def main():
     try:
@@ -233,7 +242,7 @@ def main():
             curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
         gameLoop(stdscr)
     except KeyboardInterrupt:
-        pass # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
+        saveGame( playerName ) # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
     finally:
         stdscr.erase()
         stdscr.refresh()

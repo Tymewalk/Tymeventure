@@ -9,10 +9,12 @@ class Location():
         self.desc = desc # The description it uses, which is what the player will see
         self.connections = list() # A list of all the places you can go to from this place
                                   # All elements in this are other Location() classes.
-        self.itemsHere = list() # The items at this location on the ground
+        self.itemsHere = list() # The items at this location on the ground, in Item() classes
 
     def canGoTo(self, dest):
         ''' Can we go to the destination from here? '''
+        # A good example of when to use this is if we have the super detector that
+        # shimmers when we're near the magic castle
         return dest in self.connections
     
 # The item class
@@ -82,7 +84,7 @@ penny = Item("Penny", "A penny you found on the ground. Must be your lucky day."
 # The player is a special item
 playerItem = Item("Player", "A player item never used in game. It's meant to work with Item.useWith().", False)
 
-# Item use code
+# Code for using items
 
 # Memo
 def use(stdscr, item, location, inv):
@@ -115,7 +117,6 @@ def use(stdscr, item, location, inv):
 
 penny.useWith = use
 
-    
 # Set up items in the world
 yourComputer.itemsHere = [memoComputer]
 yourShed.itemsHere = [hedgeclippers]
