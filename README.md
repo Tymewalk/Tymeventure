@@ -21,9 +21,10 @@ Run `tymeventure` to play the game.
 
 ## Where's the Wiki?
 You can find the Tymeventure Wikia [here](https://tymeventure.wikia.com).
+Currently there is no dev wiki - just the Wikia for gameplay.
 
 ## I have an old version installed. Do I need to uninstall it to update?
-Nope! Just go through the installation instructions and it'll automatically update.
+Nope! Just go through the installation instructions again and it'll automatically update.
 
 ## Uh, there's a problem!
 Simply report an issue and I'll get to it.
