@@ -19,8 +19,8 @@ from misc import * # Misc functions
 import os, sys # I just generally import both at once
 
 inventory = list() # The player's inventory
-
 version = "0.1.0+"
+hasSave = False
 
 def gameLoop(stdscr):  
     currentLocation = yourComputer
@@ -228,6 +228,15 @@ def saveGame( name ):
         savefile_out = open(tmpname, "wb")
         pickle.dump(allData, savefile_out)
         os.rename(tmpname, savename)
+
+def loadGame( name ):
+        savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+        allData = pickle.load(savefile_open)
+        currentLocation = allData[0]
+        inventory = allData[1]
+        locations = allData[2]
+        hasSave = True
 
 def main():
     try:
