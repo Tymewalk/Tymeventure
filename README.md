@@ -5,11 +5,12 @@ A small adventure game I'm working on. Currently it's nothing big, but it will b
 You will need:
  - Python 3.4
  - Curses for Python 3.4
+ - (Windows only) A terminal such as CygWin
 
 Download the .zip of the game. In the future you really should go to the Releases tab, but there's not much here right now so you can go ahead and just download the latest commit.
 
 Exctract it into a folder. Enter that folder, then run `python setup.py build`.<br>
-After that, run `python setup.py install`. (You may need to run with `sudo` on Linux.)<br>
+After that, run `python setup.py install`. (On Linux/UNIX, you have to run with `sudo`.)<br>
 Run `tymeventure` to play the game.
 
 ## Command-line Arguments
@@ -17,6 +18,9 @@ Run `tymeventure` to play the game.
 - `-h, --help`: Show help
 - `-n, --name NAME`: Set your name
 - `--nocolor`: Don't use colors
+
+## Where's the Wiki?
+You can find the Tymeventure Wikia [here](https://tymeventure.wikia.com).
 
 ## I have an old version installed. Do I need to uninstall it to update?
 Nope! Just go through the installation instructions and it'll automatically update.
