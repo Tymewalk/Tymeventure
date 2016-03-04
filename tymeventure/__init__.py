@@ -10,7 +10,8 @@
 # - Make some items that can actually be used together
 # - Savegames
 
-import curses # Curses! You've foiled my plan!
+# I'll have to use something like UniCurses if I want to have people use this on Windows
+import curses
 import pickle # For savegames later on
 from world import * # The world
 from commandline import * # This just executes the code and allow us to keep the code neat
@@ -18,21 +19,22 @@ from misc import * # Misc functions
 
 inventory = list() # The player's inventory
 
-version = "0.1.0"
+version = "0.1.0+"
 
 def gameLoop(stdscr):  
     currentLocation = yourComputer
     stdscr.clear()
     stdscr.refresh()
     if not args.nointro:
-        stdscr.addstr(0, 0, 'Welcome to Tymeventure!', curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, 'TYMEVENTURE', curses.color_pair(2) | curses.A_BOLD)
+        stdscr.addstr(0, 4, 'V', curses.color_pair(0) | curses.A_BOLD)
         versionBar = "You have version " + version + "."
         stdscr.addstr(1, 0, versionBar, curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(2, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
         nextMenu(stdscr)
         
     if not args.name: # If we didn't set a name already, prompt the user now
-        stdscr.addstr(0, 0, "What's your name? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "May I ask what your name is? (max 30 characters)", curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(1, 0, 'Name: ', curses.color_pair(0) | curses.A_BOLD)
         playerName = stdscr.getstr(1, 6, 30).decode('utf8')
         stdscr.clear()
@@ -78,13 +80,13 @@ def gameLoop(stdscr):
         elif choice == "m":
             ypos = 1
             stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            keycount = 1
+            keyCounter = 1
             for place in currentLocation.connections:
-                label = "|(" + str(keycount) + ")" + place.printName
+                label = "|(" + str(keyCounter) + ")" + place.printName
                 stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
                 stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
                 ypos += 1
-                keycount += 1
+                keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", curses.color_pair(0) | curses.A_BOLD)
             choice = nextMenu(stdscr)
@@ -95,17 +97,17 @@ def gameLoop(stdscr):
         elif choice == "t":
             ypos = 1
             stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            keycount = 1
+            keyCounter = 1
             if currentLocation.itemsHere == []:
                 stdscr.addstr(ypos, 0, "|There is nothing here.                |", curses.color_pair(0) | curses.A_BOLD)
                 ypos += 1
             else:
                 for item in currentLocation.itemsHere:
-                    label = "|(" + str(keycount) + ")" + item.printName
+                    label = "|(" + str(keyCounter) + ")" + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD) # Make a "box"
                     ypos += 1
-                    keycount += 1
+                    keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
@@ -132,17 +134,17 @@ def gameLoop(stdscr):
         elif choice == "i":
             ypos = 1
             stdscr.addstr(ypos - 1, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
-            keycount = 1
+            keyCounter = 1
             if inventory == []:
                 stdscr.addstr(ypos, 0, "|You have nothing in your inventory.   |", curses.color_pair(0) | curses.A_BOLD)
                 ypos += 1
             else:
                 for item in inventory:
-                    label = "|(" + str(keycount) + ")" + item.printName
+                    label = "|(" + str(keyCounter) + ")" + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                     ypos += 1
-                    keycount += 1
+                    keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
             stdscr.addstr(ypos + 1, 0, "-- Press an item's key to do something with it, or anything else to exit --", curses.color_pair(1) | curses.A_BOLD)
             choice = nextMenu(stdscr)
@@ -181,11 +183,11 @@ def gameLoop(stdscr):
                     stdscr.addstr(0, 0, "-" * 40, curses.color_pair(0) | curses.A_BOLD)
                     for item in inventory:
                         if not item == itemInQuestion:
-                            label = "|(" + str(keycount) + ")" + item.printName
+                            label = "|(" + str(keyCounter) + ")" + item.printName
                             stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
                             stdscr.addstr(ypos, 40, "|", curses.color_pair(0) | curses.A_BOLD)
                             ypos += 1
-                            keycount += 1
+                            keyCounter += 1
                             
                     label = "|(0) Yourself"
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), curses.color_pair(0) | curses.A_BOLD)
@@ -220,13 +222,15 @@ def gameLoop(stdscr):
 def main():
     try:
         stdscr = curses.initscr()
-        curses.cbreak() # ; curses.noecho() # Uncomment if desired/needed
+        curses.cbreak() # ; curses.noecho()
         curses.start_color()
         stdscr.keypad(1)
         if args.nocolor:            
             curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+            curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
         else:            
             curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
+            curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
         gameLoop(stdscr)
     except KeyboardInterrupt:
         pass # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
