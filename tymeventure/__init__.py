@@ -1,4 +1,4 @@
-# TYMEVENTURE v0.1.0
+# TYMEVENTURE v0.1.0 (being upgraded to 0.1.1)
 # Status: Stable
 # A simple curses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
@@ -8,27 +8,25 @@
 # - Better use of colors
 # - MUCH bigger world
 # - Make some items that can actually be used together
-# - Savegames (working in this branch)
+# - Document the game on the Wikia
 
-# I'll have to use something like UniCurses if I want to have people use this on Windows
-import curses
-import pickle # For savegames later on
+# I'll have to use something like UniCurses if I want to have people use this on Windows without CygWin
+import curses, pickle, os, sys
 from world import * # The world
 from commandline import * # This just executes the code and allow us to keep the code neat
 from misc import * # Misc functions
-import os, sys # I just generally import both at once
-
-inventory = list() # The player's inventory
 
 version = "0.1.0+"
+hasSave = False
+currentLocation = None
 
-def gameLoop(stdscr):  
-    currentLocation = yourComputer
+def gameLoop(stdscr):
+    locations = world.locations
     stdscr.clear()
     stdscr.refresh()
     if not args.nointro:
-        stdscr.addstr(0, 0, 'TYMEVENTURE', curses.color_pair(2) | curses.A_BOLD)
-        stdscr.addstr(0, 4, 'V', curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, 'TYMEVENTURE', curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 4, 'V', curses.color_pair(2) | curses.A_BOLD)
         versionBar = "You have version " + version + "."
         stdscr.addstr(1, 0, versionBar, curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(2, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
@@ -42,6 +40,23 @@ def gameLoop(stdscr):
         stdscr.refresh()
     else:
         playerName = args.name
+
+    # Load the data from the player's save
+    #allData = loadGame( playerName )
+    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
+    if os.path.exists("".join([os.getcwd(), "/", savename])):
+        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+        allData = pickle.load(savefile_open)
+        hasSave = True
+
+
+    if not hasSave:
+        currentLocation = yourComputer
+        inventory = list()
+    else:
+        currentLocation = allData[0]
+        inventory = allData[1]
+        locations = allData[2]
         
     if not args.nointro:
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
@@ -77,7 +92,15 @@ def gameLoop(stdscr):
         stdscr.addstr(7, 0, "(I)nventory", curses.color_pair(0) | curses.A_BOLD)
         choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
         if choice == "q":
-            saveGame( playerName )
+            #saveGame( playerName, currentLocation, inventory, locations )
+            allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+            # Temp file for safety
+            placename = currentLocation.printName
+            savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
+            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"])
+            savefile_out = open(tmpname, "wb")
+            pickle.dump(allData, savefile_out)
+            os.rename(tmpname, savename)
             continueGame = False
         elif choice == "m":
             ypos = 1
@@ -95,6 +118,10 @@ def gameLoop(stdscr):
             if choice in "123456789": # Make sure it's a number, the game crashes otherwise
                 if int(choice) - 1 < len(currentLocation.connections):
                     moveTo = currentLocation.connections[int(choice) - 1]
+                    for index, item in enumerate(locations):
+                        if item.printName == currentLocation.printName:
+                            locations[index] = currentLocation
+                    
                     currentLocation = moveTo # Move us
         elif choice == "t":
             ypos = 1
@@ -220,14 +247,27 @@ def gameLoop(stdscr):
         else:
             pass
 
-def saveGame( name ):
-        allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-        # Temp file for safety
-        savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-        tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
-        savefile_out = open(tmpname, "wb")
-        pickle.dump(allData, savefile_out)
-        os.rename(tmpname, savename)
+# Broken Functions VVV
+def saveGame( name, curLoc, inv, locs ):
+    allData = [curLoc, inv, locs] # Clone locations so we can keep the positions of items
+    # Temp file for safety
+    placename = curLoc.printName
+    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+    tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
+    savefile_out = open(tmpname, "wb")
+    pickle.dump(allData, savefile_out)
+    os.rename(tmpname, savename)
+
+def loadGame( name ):
+    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+    if os.path.exists("".join([os.getcwd(), "/", savename])):
+        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+        allData = pickle.load(savefile_open)
+        hasSave = True
+        return allData
+    else:
+        return [None, None, None]
+# Broken Functions ^^^
 
 def main():
     try:
@@ -241,9 +281,10 @@ def main():
         else:            
             curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
             curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+        # Game loop after this point
         gameLoop(stdscr)
     except KeyboardInterrupt:
-        saveGame( playerName ) # Save game code goes here in the future, this way if they Ctrl-C by accident, they can still save
+        saveGame( playerName )
     finally:
         stdscr.erase()
         stdscr.refresh()
