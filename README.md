@@ -41,3 +41,8 @@ Make a pull request and I'll check it over. If it's good (as in it doesn't intro
 ## I have an idea!
 Suggest ideas on [the Scratch topic](https://scratch.mit.edu/discuss/topic/185267/).<br>
 Alternatively, you can make a pull request and add your idea to IDEAS.md.
+
+## How can I help?
+Check the issues to see what needs to be done.
+You can also check the Tymeventure Wikia (see above) to document the game.
+If you make a change that could be useful, make a pull request.
