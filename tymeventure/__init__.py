@@ -10,8 +10,8 @@
 # - Make some items that can actually be used together
 # - Document the game on the Wikia
 
-# I'll have to use something like UniCurses if I want to have people use this on Windows without CygWin
-import curses, pickle, os, sys
+import pickle, os, sys
+import unicurses as curses
 from world import * # The world
 from commandline import * # This just executes the code and allow us to keep the code neat
 from misc import * # Misc functions
@@ -43,6 +43,7 @@ def gameLoop(stdscr):
 
     # Load the data from the player's save
     #allData = loadGame( playerName )
+    hasSave = False
     savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
     if os.path.exists("".join([os.getcwd(), "/", savename])):
         savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")

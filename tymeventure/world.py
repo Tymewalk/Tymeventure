@@ -1,5 +1,5 @@
 from misc import nextMenu
-import curses
+import unicurses as curses
 import random
 
 locations = list()
