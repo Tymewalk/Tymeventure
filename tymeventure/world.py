@@ -1,5 +1,5 @@
 from misc import nextMenu
-import unicurses as curses
+import unicurses 
 import random
 
 locations = list()
@@ -92,9 +92,9 @@ playerItem = Item("Player", "A player item never used in game. It's meant to wor
 # Memo
 def memoComputerUse(stdscr, item, location, inv):
     if item == playerItem:
-        stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
-        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 memoComputer.useWith = memoComputerUse # It's the function itself, not the function being called
@@ -102,9 +102,9 @@ memoComputer.useWith = memoComputerUse # It's the function itself, not the funct
 # Hedgeclippers
 def hedgeclippersUse(stdscr, item, location, inv):
     if item == playerItem:
-        stdscr.addstr(0, 0, "They look sharp. It's probably best not to do that.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "They look sharp. It's probably best not to do that.", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
-        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 hedgeclippers.useWith = hedgeclippersUse
@@ -113,9 +113,9 @@ hedgeclippers.useWith = hedgeclippersUse
 def pennyUse(stdscr, item, location, inv):
     if item == playerItem:
         # The coin actually flips :o
-        stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
-        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", curses.color_pair(0) | curses.A_BOLD)
+        stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 penny.useWith = pennyUse
