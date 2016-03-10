@@ -32,7 +32,7 @@ setup(
 
     # Author details
     author='Tymewalk',
-    author_email='idk',
+    author_email='none',
 
     # Choose your license
     license='MIT',
@@ -76,7 +76,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=[],
+    install_requires=['pickle','random'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
