@@ -13,7 +13,7 @@
 import pickle, os, sys
 import unicurses as curses
 from world import * # The world
-from commandline import * # This just executes the code and allow us to keep the code neat
+from commandline import * # This just executes the code and keeps it neat
 from misc import * # Misc functions
 
 version = "0.1.0+"
@@ -26,7 +26,7 @@ def gameLoop(stdscr):
     stdscr.refresh()
     if not args.nointro:
         stdscr.addstr(0, 0, 'TYMEVENTURE', curses.color_pair(0) | curses.A_BOLD)
-        stdscr.addstr(0, 4, 'V', curses.color_pair(2) | curses.A_BOLD)
+        stdscr.addstr(0, 3, 'E', curses.color_pair(2) | curses.A_BOLD)
         versionBar = "You have version " + version + "."
         stdscr.addstr(1, 0, versionBar, curses.color_pair(0) | curses.A_BOLD)
         stdscr.addstr(2, 0, '-- Press any key to advance --', curses.color_pair(1) | curses.A_BOLD)
@@ -248,27 +248,27 @@ def gameLoop(stdscr):
         else:
             pass
 
-# Broken Functions VVV
-def saveGame( name, curLoc, inv, locs ):
-    allData = [curLoc, inv, locs] # Clone locations so we can keep the positions of items
-    # Temp file for safety
-    placename = curLoc.printName
-    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-    tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
-    savefile_out = open(tmpname, "wb")
-    pickle.dump(allData, savefile_out)
-    os.rename(tmpname, savename)
+# Broken stuff
+##def saveGame( name, curLoc, inv, locs ):
+##    allData = [curLoc, inv, locs] # Clone locations so we can keep the positions of items
+##    # Temp file for safety
+##    placename = curLoc.printName
+##    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+##    tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
+##    savefile_out = open(tmpname, "wb")
+##    pickle.dump(allData, savefile_out)
+##    os.rename(tmpname, savename)
+##
+##def loadGame( name ):
+##    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
+##    if os.path.exists("".join([os.getcwd(), "/", savename])):
+##        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+##        allData = pickle.load(savefile_open)
+##        hasSave = True
+##        return allData
+##    else:
+##        return [None, None, None]
 
-def loadGame( name ):
-    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-    if os.path.exists("".join([os.getcwd(), "/", savename])):
-        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-        allData = pickle.load(savefile_open)
-        hasSave = True
-        return allData
-    else:
-        return [None, None, None]
-# Broken Functions ^^^
 
 def main():
     try:
@@ -276,6 +276,7 @@ def main():
         curses.cbreak() # ; curses.noecho()
         curses.start_color()
         stdscr.keypad(1)
+        # Determine if we need color
         if args.nocolor:            
             curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
             curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
