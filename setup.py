@@ -13,8 +13,8 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+#with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+#    long_description = f.read()
 
 setup(
     name='tymeventure',
@@ -25,7 +25,7 @@ setup(
     version='0.1.1',
 
     description='A curses-based adventure game',
-    long_description=long_description,
+    long_description='A curses-based adventure game',
 
     # The project's main homepage.
     url='https://github.com/Tymewalk/Tymeventure',
@@ -66,7 +66,7 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages("tymeventure"),
 
     # Alternatively, if you want to distribute just a my_module.py, uncomment
     # this:
