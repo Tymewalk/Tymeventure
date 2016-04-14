@@ -4,7 +4,9 @@ A small adventure game I'm working on. Currently it's nothing big, but it will b
 ## How to install
 You will need:
  - Python 3.4
- - A functioning computer (literally anything modern will work)
+ - Any computer capable of running Python 3.4
+
+That's it. All other packages are included or standard.
 
 Download the .zip of the game. In the future you really should go to the Releases tab, but there's not much here right now so you can go ahead and just download the latest commit.
 
@@ -43,9 +45,14 @@ Suggest ideas on [the Scratch topic](https://scratch.mit.edu/discuss/topic/18526
 Alternatively, you can make a pull request and add your idea to IDEAS.md.
 
 ### Wait... if this is curses-based, why does it work on Windows?
-It uses a module called [https://github.com/Chiel92/unicurses](Unicurses), which works like curses, except it can also be used cross-platform on Windows. Go check it out, if you're looking to make a curses based game, I highly recommend it.
+It uses a module called [https://github.com/Chiel92/unicurses](Unicurses), which works like curses, except it can also be used cross-platform on Windows. Go check it out, if you're looking to make a curses-based game, I highly recommend it.
 
-## How can I help?
+### How can I help?
 Check the issues to see what needs to be done.
 You can also check the Tymeventure Wikia (see above) to document the game.
 If you make a change that could be useful, make a pull request.
+
+## Credits
+Other than me (Tymewalk)...
+
+Chiel92 for [https://github.com/Chiel92/unicurses](Unicurses)
