@@ -1,6 +1,5 @@
 from misc import nextMenu
-import unicurses 
-import random
+import unicurses, random
 
 locations = list()
 
@@ -64,6 +63,8 @@ townMall = Location("Town Mall", "The mall for the town. Many people come here t
 townRoad = Location("Town Road", "The road running along the center of the town. Not many people go here.")
 townOutskirts = Location("Town Outskirts", "The outskirts of town. Many adventurers are afraid to go deeper into the forest.")
 forestEntry = Location("Forest Entry", "The entry to the forest. Many adventurers have perished in these woods.")
+thinForestA = Location("Thin Forest", "A thin area of forest. You feel a chill run down your spine.")
+forestCreekA = Location("Creek", "A creek. Perhaps there is something useful on the bank.")
 
 # Make connections
 makeConnection(yourComputer, yourDoorstep)
