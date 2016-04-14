@@ -1,4 +1,4 @@
-# TYMEVENTURE v0.1.0 (being upgraded to 0.1.1)
+# TYMEVENTURE v0.1.1 (Working on 0.1.1 1/2)
 # Status: Stable
 # A simple unicurses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
@@ -16,7 +16,7 @@ from world import * # The world
 from commandline import * # This just executes the code and keeps it neat
 from misc import * # Misc functions
 
-version = "0.1.0+"
+version = "0.1.1 1/2"
 hasSave = False
 currentLocation = None
 
@@ -26,7 +26,6 @@ def gameLoop(stdscr):
     stdscr.refresh()
     if not args.nointro:
         stdscr.addstr(0, 0, 'TYMEVENTURE', unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(0, 3, 'E', unicurses.color_pair(2) | unicurses.A_BOLD)
         versionBar = "You have version " + version + "."
         stdscr.addstr(1, 0, versionBar, unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(2, 0, '-- Press any key to advance --', unicurses.color_pair(1) | unicurses.A_BOLD)
@@ -52,7 +51,7 @@ def gameLoop(stdscr):
 
 
     if not hasSave:
-        currentLocation = yourComputer
+        currentLocation = yourBedroom
         inventory = list()
     else:
         currentLocation = allData[0]
@@ -63,12 +62,10 @@ def gameLoop(stdscr):
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
         stdscr.addstr(0, 0, adventureAnnounce, unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(3, 0, "Once again, like every morning, you log onto the internet and check for new messages.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(4, 0, "A couple of forum posts, a new follower, a friend request. Slow day.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(5, 0, "But today feels... different.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(6, 0, "Something compels you to go outside today, as if you know something's about to happen.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(7, 0, "You decide to close the computer, and head outside, ready to explore the world...", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(8, 0, "-- Press any key to begin --", unicurses.color_pair(1) | unicurses.A_BOLD)
+        stdscr.addstr(3, 0, "\"I think there was something going on today, a big press conference...?\"", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(4, 0, "After getting dressed and having breakfast, you get ready to take on the day.", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(5, 0, "\"Well, better get started.\"", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(6, 0, "-- Press any key to begin --", unicurses.color_pair(1) | unicurses.A_BOLD)
         nextMenu(stdscr)
 
     continueGame = True

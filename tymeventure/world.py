@@ -50,7 +50,6 @@ def makeConnection(pointA, pointB):
 
 
 # Set up locations
-yourComputer = Location("Your Computer", "Your computer, where you use the internet. You feel like you shouldn't be here.")
 yourBedroom = Location("Your Bedroom", "Your bedroom, where you sleep.")
 yourDoorstep = Location("Your Doorstep", "The doorstep of your house.")
 outside = Location("Outside", "Outside your house. You feel as if you should explore here.")
@@ -67,8 +66,7 @@ thinForestA = Location("Thin Forest", "A thin area of forest. You feel a chill r
 forestCreekA = Location("Creek", "A creek. Perhaps there is something useful on the bank.")
 
 # Make connections
-makeConnection(yourComputer, yourDoorstep)
-makeConnection(yourComputer, yourBedroom)
+makeConnection(yourBedroom, yourDoorstep)
 makeConnection(yourDoorstep, outside)
 makeConnection(outside, yourLawn)
 makeConnection(yourLawn, yourShed)
@@ -81,7 +79,7 @@ makeConnection(townRoad, townOutskirts)
 makeConnection(townOutskirts, forestEntry)
 
 # Set up items
-memoComputer = Item("Memo", "A memo you found taped to your computer. It reads \"Clean Out Shed\".", True)
+memoBedroom = Item("Memo", "A memo you found taped to your wall. It reads \"Clean Out Shed\".", True)
 hedgeclippers = Item("Hedgeclippers", "A pair of hedgeclippers. They look almost brand-new.", True)
 penny = Item("Penny", "A penny you found on the ground. Must be your lucky day.", True)
 
@@ -91,14 +89,14 @@ playerItem = Item("Player", "A player item never used in game. It's meant to wor
 # Code for using items
 
 # Memo
-def memoComputerUse(stdscr, item, location, inv):
+def memoBedroomUse(stdscr, item, location, inv):
     if item == playerItem:
         stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
-memoComputer.useWith = memoComputerUse # It's the function itself, not the function being called
+memoBedroom.useWith = memoBedroomUse # It's the function itself, not the function being called
 
 # Hedgeclippers
 def hedgeclippersUse(stdscr, item, location, inv):
@@ -122,6 +120,6 @@ def pennyUse(stdscr, item, location, inv):
 penny.useWith = pennyUse
 
 # Set up items in the world
-yourComputer.itemsHere = [memoComputer]
+yourBedroom.itemsHere = [memoBedroom]
 yourShed.itemsHere = [hedgeclippers]
 townMall.itemsHere = [penny]
