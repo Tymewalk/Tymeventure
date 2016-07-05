@@ -1,4 +1,4 @@
-# TYMEVENTURE v0.1.1 (Working on 0.1.1 1/2)
+# TYMEVENTURE v0.1.1 (Working on 0.1.2)
 # Status: Stable
 # A simple unicurses-based game running in Python 3.4.3.
 # Help would be appreciated if you know how.
@@ -16,7 +16,7 @@ from world import * # The world
 from commandline import * # This just executes the code and keeps it neat
 from misc import * # Misc functions
 
-version = "0.1.1 1/2"
+version = "0.1.2"
 hasSave = False
 currentLocation = None
 
