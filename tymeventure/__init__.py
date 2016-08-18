@@ -1,6 +1,6 @@
-# TYMEVENTURE v0.1.1 (Working on 0.1.2)
+# TYMEVENTURE v0.1.2
 # Status: Stable
-# A simple unicurses-based game running in Python 3.4.3.
+# A simple unicurses-based game running in Python 3.
 # Help would be appreciated if you know how.
 #
 # TODO:
