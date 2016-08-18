@@ -3,16 +3,27 @@ A small adventure game I'm working on. Currently it's nothing big, but it will b
 
 ## How to install
 You will need:
- - Python 3.4
- - Any computer capable of running Python 3.4
+ - Python 3
 
-That's it. All other packages are included or standard.
+Currently, that's it. All other packages are included or standard.
 
+You can install manually or through `pip`.
+
+### Through pip
+Use `pip3 install tymeventure`. Those on UNIX/Linux will have to run it with `sudo`.
+
+### Manually
 Download the .zip of the game. In the future you really should go to the Releases tab, but there's not much here right now so you can go ahead and just download the latest commit.
 
-Exctract it into a folder. Enter that folder, then run `python setup.py build`.<br>
-After that, run `python setup.py install`. (On Linux/UNIX, you have to run with `sudo`.)<br>
-Run `tymeventure` to play the game.
+Exctract it into a folder. Enter that folder, then run `python setup.py build`.
+
+After that, run `python setup.py install`. (On Linux/UNIX, you have to run with `sudo`.)
+
+
+After either method, run `tymeventure` to play the game.
+
+### What's the difference?
+Through `pip` is quick and easy, but manually gives you access to the latest commits.
 
 ## Command-line Arguments
 
