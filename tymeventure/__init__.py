@@ -266,7 +266,7 @@ def gameLoop(stdscr):
                 ypos += 1
             else:
                 for item in currentLocation.itemsHere:
-                    label = "|(" + str(keyCounter) + ")" + item.printName
+                    label = "|(" + str(keyCounter) + ") " + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
                     ypos += 1
@@ -283,7 +283,7 @@ def gameLoop(stdscr):
 
             if checkItem:
                 stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1)Take Item"
+                option = "(1) Take Item"
                 stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
                 stdscr.addstr(2, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -303,7 +303,7 @@ def gameLoop(stdscr):
                 ypos += 1
             else:
                 for item in inventory:
-                    label = "|(" + str(keyCounter) + ")" + item.printName
+                    label = "|(" + str(keyCounter) + ") " + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
                     ypos += 1
@@ -321,13 +321,13 @@ def gameLoop(stdscr):
 
             if checkItem:
                 stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1)Look At Item"
+                option = "(1) Look At Item"
                 stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(2)Drop Item"
+                option = "(2) Drop Item"
                 stdscr.addstr(2, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(2, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(3)Use Item"
+                option = "(3) Use Item"
                 stdscr.addstr(3, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(3, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(4, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -346,7 +346,7 @@ def gameLoop(stdscr):
                     stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
                     for item in inventory:
                         if not item == itemInQuestion:
-                            label = "|(" + str(keyCounter) + ")" + item.printName
+                            label = "|(" + str(keyCounter) + ") " + item.printName
                             stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                             stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
                             ypos += 1
