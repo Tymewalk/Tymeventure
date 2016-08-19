@@ -20,3 +20,8 @@ Key:
 ### Story
 
 - [ ] Add some more of the strange forest the player is exploring
+
+## Visuals
+
+- [ ] Better use of colors
+ - [ ] Status indicators should change color based on level

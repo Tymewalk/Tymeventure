@@ -2,13 +2,6 @@
 # Status: Stable
 # A simple unicurses-based game running in Python 3.
 # Help would be appreciated if you know how.
-#
-# TODO:
-# - Develop some story
-# - Better use of colors
-# - MUCH bigger world
-# - Make some items that can actually be used together
-# - Document the game on the Wikia
 
 import pickle, os, sys
 import unicurses
@@ -191,13 +184,13 @@ def gameLoop(stdscr):
         hasSave = True
 
 
-    if not hasSave:
-        currentLocation = yourBedroom
-        inventory = list()
-    else:
+    if hasSave:
         currentLocation = allData[0]
         inventory = allData[1]
         locations = allData[2]
+    else:
+        currentLocation = yourBedroom
+        inventory = list()
         
     if not args.nointro:
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
