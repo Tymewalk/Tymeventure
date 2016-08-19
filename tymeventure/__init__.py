@@ -218,19 +218,20 @@ def gameLoop(stdscr):
             itemsHereBar = "There is one item here."
         else:
             itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
-        stdscr.addstr(4, 0, itemsHereBar, unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(5, 0, "(Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(3, 0, itemsHereBar, unicurses.color_pair(0) | unicurses.A_BOLD)
+        # Options
+        stdscr.addstr(5, 0, "Save and (Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(6, 0, "(M)ove", unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(7, 0, "(T)hings Here", unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(8, 0, "(I)nventory", unicurses.color_pair(0) | unicurses.A_BOLD)
-        choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
+        choice = nextMenu(stdscr).lower() # Use nextMenu for nice, easy clearing
         if choice == "q":
+            # Save and Quit
             #saveGame( playerName, currentLocation, inventory, locations )
             allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-            # Temp file for safety
             placename = currentLocation.printName
             savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"])
+            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
             savefile_out = open(tmpname, "wb")
             pickle.dump(allData, savefile_out)
             os.rename(tmpname, savename)
