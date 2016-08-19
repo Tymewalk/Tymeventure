@@ -1,12 +1,12 @@
 # TYMEVENTURE v0.1.2
-# Status: Stable
+# Status: Experimental
 # A simple unicurses-based game running in Python 3.
 # Help would be appreciated if you know how.
 
 import pickle, os, sys
 import unicurses
 
-version = "0.1.2"
+version = "0.1.2-devEXP"
 hasSave = False
 currentLocation = None
 
@@ -29,6 +29,17 @@ def nextMenu(screen):
     screen.clear()
     screen.refresh()
     return key
+
+def drawBoxMenu(options, xsize=40):
+    global stdscr
+    stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+    ypos = 1
+    for option in options:
+        stdscr.addstr(ypos, 0, option + " " * (xsize - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+        ypos += 1
+        
+    stdscr.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
 # Set up the world
 locations = list()
@@ -284,15 +295,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                options = ["(1) Take Item"]
-                ypos = 1
-                for option in options:
-                    stdscr.addstr(ypos, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                    ypos += 1
-                    
-                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                drawBoxMenu(["(1) Take Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -327,15 +330,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                options = ["(1) Look At Item", "(2) Drop Item", "(3) Use Item"]
-                ypos = 1
-                for option in options:
-                    stdscr.addstr(ypos, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                    ypos += 1
-                    
-                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                drawBoxMenu(["(1) Look At Item", "(2) Drop Item", "(3) Use Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
