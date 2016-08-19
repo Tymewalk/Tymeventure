@@ -30,7 +30,7 @@ def nextMenu(screen):
     screen.refresh()
     return key
 
-def drawBoxMenu(screen, options, xsize=40):
+def drawBoxPopup(screen, text, xsize=40):
     screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
     ypos = 1
     for option in options:
@@ -40,7 +40,7 @@ def drawBoxMenu(screen, options, xsize=40):
         
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
-def drawBoxMenuNumbered(screen, options, xsize=40):
+def drawBoxMenu(screen, options, xsize=40):
     screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
     ypos = 1
     numCounter = 1
@@ -52,6 +52,8 @@ def drawBoxMenuNumbered(screen, options, xsize=40):
         numCounter += 1
         
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
+
+    return ypos
 
 # Set up the world
 locations = list()
@@ -307,7 +309,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                drawBoxMenu(stdscr, ["(1) Take Item"])
+                drawBoxMenu(stdscr, ["Take Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -325,7 +327,7 @@ def gameLoop(stdscr):
                 stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 itemNames = [i.printName for i in inventory]
-                drawBoxMenuNumbered(stdscr, itemNames)
+                drawBoxMenu(stdscr, itemNames)
             stdscr.addstr(10, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
@@ -337,7 +339,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                drawBoxMenu(stdscr, ["(1) Look At Item", "(2) Drop Item", "(3) Use Item"])
+                drawBoxMenu(stdscr, ["Look At Item", "Drop Item", "Use Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
