@@ -247,7 +247,7 @@ def gameLoop(stdscr):
                 ypos += 1
                 keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", unicurses.color_pair(0) | unicurses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "-- Press the key next to where you want to move --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             if choice in "123456789": # Make sure it's a valid location number
                 if int(choice) - 1 < len(currentLocation.connections):
@@ -264,6 +264,7 @@ def gameLoop(stdscr):
             if currentLocation.itemsHere == []:
                 stdscr.addstr(ypos, 0, "|There is nothing here.                |", unicurses.color_pair(0) | unicurses.A_BOLD)
                 ypos += 1
+                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 for item in currentLocation.itemsHere:
                     label = "|(" + str(keyCounter) + ") " + item.printName
@@ -272,6 +273,7 @@ def gameLoop(stdscr):
                     ypos += 1
                     keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "-- Press the key next to the item you want to use --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789": # Make sure it's a valid item number
@@ -301,6 +303,7 @@ def gameLoop(stdscr):
             if inventory == []:
                 stdscr.addstr(ypos, 0, "|You have nothing in your inventory.   |", unicurses.color_pair(0) | unicurses.A_BOLD)
                 ypos += 1
+                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 for item in inventory:
                     label = "|(" + str(keyCounter) + ") " + item.printName
