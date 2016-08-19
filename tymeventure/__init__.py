@@ -6,7 +6,7 @@
 import pickle, os, sys
 import unicurses
 
-version = "0.1.2"
+version = "0.1.2-dev"
 hasSave = False
 currentLocation = None
 
@@ -29,6 +29,31 @@ def nextMenu(screen):
     screen.clear()
     screen.refresh()
     return key
+
+def drawBoxPopup(screen, text, xsize=40):
+    screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+    ypos = 1
+    for option in options:
+        screen.addstr(ypos, 0, option + " " * (xsize - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+        screen.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+        ypos += 1
+        
+    screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
+
+def drawBoxMenu(screen, options, xsize=40):
+    screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+    ypos = 1
+    numCounter = 1
+    for option in options:
+        option = "(" + str(numCounter) + ") " + option
+        screen.addstr(ypos, 0, option + " " * (xsize - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+        screen.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+        ypos += 1
+        numCounter += 1
+        
+    screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
+
+    return ypos
 
 # Set up the world
 locations = list()
@@ -219,18 +244,19 @@ def gameLoop(stdscr):
         else:
             itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
         stdscr.addstr(3, 0, itemsHereBar, unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(4, 0, "(Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(5, 0, "(M)ove", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(6, 0, "(T)hings here", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(7, 0, "(I)nventory", unicurses.color_pair(0) | unicurses.A_BOLD)
-        choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
+        # Options
+        stdscr.addstr(5, 0, "Save and (Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(6, 0, "(M)ove", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(7, 0, "(T)hings Here", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(8, 0, "(I)nventory", unicurses.color_pair(0) | unicurses.A_BOLD)
+        choice = nextMenu(stdscr).lower() # Use nextMenu for nice, easy clearing
         if choice == "q":
+            # Save and Quit
             #saveGame( playerName, currentLocation, inventory, locations )
             allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-            # Temp file for safety
             placename = currentLocation.printName
             savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"])
+            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
             savefile_out = open(tmpname, "wb")
             pickle.dump(allData, savefile_out)
             os.rename(tmpname, savename)
@@ -240,15 +266,15 @@ def gameLoop(stdscr):
             stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
             keyCounter = 1
             for place in currentLocation.connections:
-                label = "|(" + str(keyCounter) + ")" + place.printName
+                label = "|(" + str(keyCounter) + ") " + place.printName
                 stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
                 ypos += 1
                 keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", unicurses.color_pair(0) | unicurses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "-- Press the key next to where you want to move --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
-            if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+            if choice in "123456789": # Make sure it's a valid location number
                 if int(choice) - 1 < len(currentLocation.connections):
                     moveTo = currentLocation.connections[int(choice) - 1]
                     for index, item in enumerate(locations):
@@ -263,17 +289,19 @@ def gameLoop(stdscr):
             if currentLocation.itemsHere == []:
                 stdscr.addstr(ypos, 0, "|There is nothing here.                |", unicurses.color_pair(0) | unicurses.A_BOLD)
                 ypos += 1
+                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 for item in currentLocation.itemsHere:
-                    label = "|(" + str(keyCounter) + ")" + item.printName
+                    label = "|(" + str(keyCounter) + ") " + item.printName
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
                     ypos += 1
                     keyCounter += 1
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+            stdscr.addstr(ypos + 1, 0, "-- Press the key next to the item you want to use --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
-            if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+            if choice in "123456789": # Make sure it's a valid item number
                 if int(choice) - 1 < len(currentLocation.itemsHere):
                     checkItem = True
                     itemInQuestion = currentLocation.itemsHere[int(choice) - 1]
@@ -281,11 +309,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1)Take Item"
-                stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
-                stdscr.addstr(2, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                drawBoxMenu(stdscr, ["Take Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -300,15 +324,11 @@ def gameLoop(stdscr):
             if inventory == []:
                 stdscr.addstr(ypos, 0, "|You have nothing in your inventory.   |", unicurses.color_pair(0) | unicurses.A_BOLD)
                 ypos += 1
+                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
-                for item in inventory:
-                    label = "|(" + str(keyCounter) + ")" + item.printName
-                    stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                    ypos += 1
-                    keyCounter += 1
-            stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
+                itemNames = [i.printName for i in inventory]
+                ypos = drawBoxMenu(stdscr, itemNames)
+                stdscr.addstr(ypos, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789":
@@ -319,17 +339,7 @@ def gameLoop(stdscr):
                     checkItem = False
 
             if checkItem:
-                stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1)Look At Item"
-                stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(2)Drop Item"
-                stdscr.addstr(2, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(2, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(3)Use Item"
-                stdscr.addstr(3, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(3, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(4, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                drawBoxMenu(stdscr, ["Look At Item", "Drop Item", "Use Item"])
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -345,7 +355,7 @@ def gameLoop(stdscr):
                     stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
                     for item in inventory:
                         if not item == itemInQuestion:
-                            label = "|(" + str(keyCounter) + ")" + item.printName
+                            label = "|(" + str(keyCounter) + ") " + item.printName
                             stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                             stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
                             ypos += 1

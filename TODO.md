@@ -24,4 +24,4 @@ Key:
 ## Visuals
 
 - [ ] Better use of colors
- - [ ] Status indicators should change color based on level
+ - [ ] Status indicators could change color based on level
