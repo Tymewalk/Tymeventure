@@ -327,8 +327,8 @@ def gameLoop(stdscr):
                 stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 itemNames = [i.printName for i in inventory]
-                drawBoxMenu(stdscr, itemNames)
-            stdscr.addstr(10, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
+                ypos = drawBoxMenu(stdscr, itemNames)
+                stdscr.addstr(ypos, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789":
