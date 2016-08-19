@@ -241,7 +241,7 @@ def gameLoop(stdscr):
             stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
             keyCounter = 1
             for place in currentLocation.connections:
-                label = "|(" + str(keyCounter) + ")" + place.printName
+                label = "|(" + str(keyCounter) + ") " + place.printName
                 stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                 stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
                 ypos += 1
