@@ -154,6 +154,7 @@ yourBedroom.itemsHere = [memoBedroom]
 yourShed.itemsHere = [hedgeclippers]
 townMall.itemsHere = [penny]
 
+# Main game loop
 def gameLoop(stdscr):
     global locations
     stdscr.clear()
@@ -180,14 +181,14 @@ def gameLoop(stdscr):
     savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
     if os.path.exists("".join([os.getcwd(), "/", savename])):
         savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-        allData = pickle.load(savefile_open)
+        saveData = pickle.load(savefile_open)
         hasSave = True
 
 
     if hasSave:
-        currentLocation = allData[0]
-        inventory = allData[1]
-        locations = allData[2]
+        currentLocation = saveData[0]
+        inventory = saveData[1]
+        locations = saveData[2]
     else:
         currentLocation = yourBedroom
         inventory = list()
