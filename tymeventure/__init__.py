@@ -3,7 +3,7 @@
 # A simple unicurses-based game running in Python 3.
 # Help would be appreciated if you know how.
 
-import pickle, os, sys
+import pickle, os, sys, argparse
 import unicurses
 
 version = "0.1.2-dev"
@@ -11,7 +11,6 @@ hasSave = False
 currentLocation = None
 
 # Command-line arguments
-import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--name", help="Set your name")
 parser.add_argument("--nocolor", help="Turn off colors", action="store_true")
@@ -415,7 +414,8 @@ def gameLoop(stdscr):
 def main():
     try:
         stdscr = unicurses.initscr()
-        unicurses.cbreak() # ; unicurses.noecho()
+        unicurses.cbreak()
+        # unicurses.noecho()
         unicurses.start_color()
         stdscr.keypad(1)
         # Determine if we need color
@@ -434,5 +434,6 @@ def main():
         stdscr.erase()
         stdscr.refresh()
         stdscr.keypad(0)
-        unicurses.echo() ; unicurses.nocbreak()
+        unicurses.echo()
+        unicurses.nocbreak()
         unicurses.endwin()
