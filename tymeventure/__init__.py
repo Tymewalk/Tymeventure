@@ -197,10 +197,10 @@ def gameLoop(stdscr):
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
         stdscr.addstr(0, 0, adventureAnnounce, unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(3, 0, "\"I think there was something going on today, a big press conference...?\"", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(3, 0, "You: I think there was something going on today, a big press conference...?", unicurses.color_pair(3) | unicurses.A_BOLD)
         stdscr.addstr(4, 0, "After getting dressed and having breakfast, you get ready to take on the day.", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(5, 0, "\"Well, better get started.\"", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(6, 0, "-- Press any key to begin --", unicurses.color_pair(1) | unicurses.A_BOLD)
+        stdscr.addstr(5, 0, "You: Well, better get started.", unicurses.color_pair(3) | unicurses.A_BOLD)
+        stdscr.addstr(7, 0, "-- Press any key to begin --", unicurses.color_pair(1) | unicurses.A_BOLD)
         nextMenu(stdscr)
 
     continueGame = True
@@ -415,6 +415,7 @@ def main():
         else:            
             unicurses.init_pair(1, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK)
             unicurses.init_pair(2, unicurses.COLOR_RED, unicurses.COLOR_BLACK)
+            unicurses.init_pair(3, unicurses.COLOR_GREEN, unicurses.COLOR_BLACK)
         # Game loop after this point
         gameLoop(stdscr)
     except KeyboardInterrupt:
