@@ -25,3 +25,9 @@ Key:
 
 - [ ] Better use of colors
  - [ ] Status indicators should change color based on level
+
+### Menu cleanup
+
+- [ ] All menu items should have space between numbers and labels
+- [ ] Items should be looked at while on the ground, too
+- [ ] Space things out a little more

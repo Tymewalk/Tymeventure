@@ -218,11 +218,11 @@ def gameLoop(stdscr):
             itemsHereBar = "There is one item here."
         else:
             itemsHereBar = "There are " + str(len(currentLocation.itemsHere)) + " items here."
-        stdscr.addstr(3, 0, itemsHereBar, unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(4, 0, "(Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(5, 0, "(M)ove", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(6, 0, "(T)hings here", unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(7, 0, "(I)nventory", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(4, 0, itemsHereBar, unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(5, 0, "(Q)uit", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(6, 0, "(M)ove", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(7, 0, "(T)hings Here", unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(8, 0, "(I)nventory", unicurses.color_pair(0) | unicurses.A_BOLD)
         choice = nextMenu(stdscr).lower() # Case doesn't matter, and we clear anyway, so nextMenu is OK here
         if choice == "q":
             #saveGame( playerName, currentLocation, inventory, locations )
@@ -248,7 +248,7 @@ def gameLoop(stdscr):
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
             stdscr.addstr(ypos + 1, 0, "Press the key next to where you want to move.", unicurses.color_pair(0) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
-            if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+            if choice in "123456789": # Make sure it's a valid location number
                 if int(choice) - 1 < len(currentLocation.connections):
                     moveTo = currentLocation.connections[int(choice) - 1]
                     for index, item in enumerate(locations):
@@ -273,7 +273,7 @@ def gameLoop(stdscr):
             stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
-            if choice in "123456789": # Make sure it's a number, the game crashes otherwise
+            if choice in "123456789": # Make sure it's a valid item number
                 if int(choice) - 1 < len(currentLocation.itemsHere):
                     checkItem = True
                     itemInQuestion = currentLocation.itemsHere[int(choice) - 1]
