@@ -40,6 +40,19 @@ def drawBoxMenu(screen, options, xsize=40):
         
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
+def drawBoxMenuNumbered(screen, options, xsize=40):
+    screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+    ypos = 1
+    numCounter = 1
+    for option in options:
+        option = "(" + str(numCounter) + ") " + option
+        screen.addstr(ypos, 0, option + " " * (xsize - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+        screen.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+        ypos += 1
+        numCounter += 1
+        
+    screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
+
 # Set up the world
 locations = list()
 
@@ -311,14 +324,9 @@ def gameLoop(stdscr):
                 ypos += 1
                 stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
-                for item in inventory:
-                    label = "|(" + str(keyCounter) + ") " + item.printName
-                    stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                    ypos += 1
-                    keyCounter += 1
-            stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-            stdscr.addstr(ypos + 1, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
+                itemNames = [i.printName for i in inventory]
+                drawBoxMenuNumbered(stdscr, itemNames)
+            stdscr.addstr(10, 0, "-- Press an item's key to do something with it, or anything else to exit --", unicurses.color_pair(1) | unicurses.A_BOLD)
             choice = nextMenu(stdscr)
             checkItem = False
             if choice in "123456789":
