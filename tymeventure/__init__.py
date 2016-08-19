@@ -285,10 +285,14 @@ def gameLoop(stdscr):
 
             if checkItem:
                 stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1) Take Item"
-                stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD) # Make a "box"
-                stdscr.addstr(2, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                options = ["(1) Take Item"]
+                ypos = 1
+                for option in options:
+                    stdscr.addstr(ypos, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+                    ypos += 1
+                    
+                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
@@ -324,16 +328,14 @@ def gameLoop(stdscr):
 
             if checkItem:
                 stdscr.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(1) Look At Item"
-                stdscr.addstr(1, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(1, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(2) Drop Item"
-                stdscr.addstr(2, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(2, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                option = "(3) Use Item"
-                stdscr.addstr(3, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(3, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
-                stdscr.addstr(4, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                options = ["(1) Look At Item", "(2) Drop Item", "(3) Use Item"]
+                ypos = 1
+                for option in options:
+                    stdscr.addstr(ypos, 0, option + " " * (40 - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
+                    stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
+                    ypos += 1
+                    
+                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
                 choice = nextMenu(stdscr)
                 # Number doesn't matter here, I'm not converting it to int or anything
                 if choice == "1":
