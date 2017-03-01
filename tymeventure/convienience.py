@@ -1,3 +1,7 @@
+# convienience.py
+# Convienience functions.
+import unicurses
+
 # Small function I wrote a while back to get keypresses
 def getKey(screen):
     return chr(screen.getch())

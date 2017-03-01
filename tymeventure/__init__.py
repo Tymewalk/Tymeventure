@@ -3,7 +3,7 @@
 # A simple unicurses-based game running in Python 3.
 # Help would be appreciated if you know how.
 
-import pickle, os, sys, argparse
+import pickle, os, sys, argparse, random
 import unicurses
 from tymeventure.world import *
 from tymeventure.convienience import *
