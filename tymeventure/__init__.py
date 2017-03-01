@@ -323,6 +323,8 @@ def gameLoop(stdscr):
             if inventory == []:
                 stdscr.addstr(ypos, 0, "|You have nothing in your inventory.   |", unicurses.color_pair(0) | unicurses.A_BOLD)
                 ypos += 1
+                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                ypos += 1
                 stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 itemNames = [i.printName for i in inventory]
