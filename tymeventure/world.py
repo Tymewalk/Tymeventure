@@ -1,6 +1,7 @@
 # world.py
 # Handles items and locations.
 from tymeventure.convienience import *
+import random
 import unicurses
 
 # Set up the world
