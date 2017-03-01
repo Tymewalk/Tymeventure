@@ -36,7 +36,7 @@ def drawBoxPopup(screen, text, xsize=40):
         screen.addstr(ypos, 0, option + " " * (xsize - len(option)), unicurses.color_pair(0) | unicurses.A_BOLD)
         screen.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
         ypos += 1
-        
+
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
 def drawBoxMenu(screen, options, xsize=40):
@@ -49,7 +49,7 @@ def drawBoxMenu(screen, options, xsize=40):
         screen.addstr(ypos, xsize, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
         ypos += 1
         numCounter += 1
-        
+
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
     return ypos
@@ -72,7 +72,7 @@ class Location():
         # A good example of when to use this is if we have the super detector that
         # shimmers when we're near the magic castle
         return dest in self.connections
-    
+
 # The item class
 class Item():
     def __init__(self, printName, desc, canTake):
@@ -93,12 +93,12 @@ class Item():
         '''When the item is picked up, run the code in this function.'''
         # For example, when we pick up the magic ring, it glows and attaches itself to our hand
         return True # Placeholder
-    
+
 # Make a connection between two points.
 def makeConnection(pointA, pointB):
     if not pointB in pointA.connections:
         pointA.connections.append(pointB)
-        
+
     if not pointA in pointB.connections:
         pointB.connections.append(pointA)
 
@@ -184,12 +184,11 @@ def gameLoop(stdscr):
     stdscr.clear()
     stdscr.refresh()
     if not args.nointro:
-        stdscr.addstr(0, 0, 'TYMEVENTURE', unicurses.color_pair(0) | unicurses.A_BOLD)
-        versionBar = "You have version " + version + "."
-        stdscr.addstr(1, 0, versionBar, unicurses.color_pair(0) | unicurses.A_BOLD)
-        stdscr.addstr(2, 0, '-- Press any key to advance --', unicurses.color_pair(1) | unicurses.A_BOLD)
+        stdscr.addstr(0, 0, 'Tymeventure', unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(1, 0, "Version {}".format(version), unicurses.color_pair(0) | unicurses.A_BOLD)
+        stdscr.addstr(2, 0, '-- Press any key to begin --', unicurses.color_pair(1) | unicurses.A_BOLD)
         nextMenu(stdscr)
-        
+
     if not args.name: # If we didn't set a name already, prompt the user now
         stdscr.addstr(0, 0, "May I ask what your name is? (max 30 characters)", unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(1, 0, 'Name: ', unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -216,7 +215,7 @@ def gameLoop(stdscr):
     else:
         currentLocation = yourBedroom
         inventory = list()
-        
+
     if not args.nointro:
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
         stdscr.addstr(0, 0, adventureAnnounce, unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -279,7 +278,7 @@ def gameLoop(stdscr):
                     for index, item in enumerate(locations):
                         if item.printName == currentLocation.printName:
                             locations[index] = currentLocation
-                    
+
                     currentLocation = moveTo # Move us
         elif choice == "t":
             ypos = 1
@@ -314,8 +313,8 @@ def gameLoop(stdscr):
                 if choice == "1":
                     currentLocation.itemsHere.remove(itemInQuestion)
                     inventory.append(itemInQuestion)
-                
-            
+
+
         elif choice == "i":
             ypos = 1
             stdscr.addstr(ypos - 1, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -359,7 +358,7 @@ def gameLoop(stdscr):
                             stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
                             ypos += 1
                             keyCounter += 1
-                            
+
                     label = "|(0) Yourself"
                     stdscr.addstr(ypos, 0, label + (" " * (len(label) - 40)), unicurses.color_pair(0) | unicurses.A_BOLD)
                     stdscr.addstr(ypos, 40, "|", unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -379,13 +378,13 @@ def gameLoop(stdscr):
                         checkItem = True
                     else:
                         checkItem = False
-                        
+
                     if checkItem:
                         itemInQuestion.useWith(stdscr, itemToUseWith, currentLocation, inventory)
-                        
+
                 else:
                     pass
-            
+
         else:
             pass
 
@@ -419,10 +418,10 @@ def main():
         unicurses.start_color()
         stdscr.keypad(1)
         # Determine if we need color
-        if args.nocolor:            
+        if args.nocolor:
             unicurses.init_pair(1, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK)
             unicurses.init_pair(2, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK)
-        else:            
+        else:
             unicurses.init_pair(1, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK)
             unicurses.init_pair(2, unicurses.COLOR_RED, unicurses.COLOR_BLACK)
             unicurses.init_pair(3, unicurses.COLOR_GREEN, unicurses.COLOR_BLACK)
