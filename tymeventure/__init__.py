@@ -31,14 +31,13 @@ def saveGame(playerName, currentLocation, inventory, locations):
     os.rename(tmpname, savename)
 
 def loadGame(playerName):
-    hasSave = False
-    savename = "{}_tymeventuresave".format(playerName)
-    if os.path.exists("".join([os.getcwd(), "/", savename])):
-        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+    if os.path.exists("{}/{}_tymeventuresave".format(os.getcwd, playerName)):
+        savefile_open = open("{}/{}_tymeventuresave".format(os.getcwd, playerName), "rb")
         saveData = pickle.load(savefile_open)
         hasSave = True
     else:
         saveData = False
+        hasSave = False
     return hasSave, saveData
 
 # Main game loop
