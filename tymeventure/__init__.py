@@ -22,6 +22,7 @@ parser.add_argument("--nointro", help="Skip the intro, best used with -n", actio
 args = parser.parse_args()
 
 def saveGame(playerName, currentLocation, inventory, locations):
+    '''Save a player's game.'''
     global saveVersion
     allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
     savename = "{}_tymeventuresave".format(playerName)
@@ -31,6 +32,7 @@ def saveGame(playerName, currentLocation, inventory, locations):
     os.rename(tmpname, savename)
 
 def loadGame(playerName):
+    '''Load a player's save.'''
     if os.path.exists("{}/{}_tymeventuresave".format(os.getcwd, playerName)):
         savefile_open = open("{}/{}_tymeventuresave".format(os.getcwd, playerName), "rb")
         saveData = pickle.load(savefile_open)
