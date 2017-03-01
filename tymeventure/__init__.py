@@ -12,7 +12,6 @@ from tymeventure.convienience import *
 version = "0.1.2-dev"
 saveVersion = "0.1.2-r1"
 hasSave = False
-currentLocation = None
 
 # Command-line arguments
 parser = argparse.ArgumentParser()
@@ -26,10 +25,8 @@ def saveGame(playerName, currentLocation, inventory, locations):
     global saveVersion
     allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
     savename = "{}_tymeventuresave".format(playerName)
-    tmpname = "{}_tymeventuretmp".format(playerName) # Use temp file to be safe
-    savefile_out = open(tmpname, "wb")
+    savefile_out = open(savename, "wb")
     pickle.dump(allData, savefile_out)
-    os.rename(tmpname, savename)
 
 def loadGame(playerName):
     '''Load a player's save.'''
