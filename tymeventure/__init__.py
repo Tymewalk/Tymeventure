@@ -24,16 +24,15 @@ args = parser.parse_args()
 def saveGame(currentLocation, inventory, locations):
     global saveVersion
     allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-    placename = currentLocation.printName # Why do we even have this?
-    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-    tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
+    savename = "{}_tymeventuresave".format(playerName)
+    tmpname = "{}_tymeventuretmp".format(playerName) # Use temp file to be safe
     savefile_out = open(tmpname, "wb")
     pickle.dump(allData, savefile_out)
     os.rename(tmpname, savename)
 
 def loadGame(playerName):
     hasSave = False
-    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
+    savename = "{}_tymeventuresave".format(playerName)
     if os.path.exists("".join([os.getcwd(), "/", savename])):
         savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
         saveData = pickle.load(savefile_open)
@@ -111,8 +110,8 @@ def gameLoop(stdscr):
             #saveGame( playerName, currentLocation, inventory, locations )
             allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
             placename = currentLocation.printName
-            savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
+            savename = "{}_tymeventuresave".format(playerName)
+            tmpname = "{}_tymeventuretmp".format(playerName) # Use temp file to be safe
             savefile_out = open(tmpname, "wb")
             pickle.dump(allData, savefile_out)
             os.rename(tmpname, savename)
