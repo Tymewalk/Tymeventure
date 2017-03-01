@@ -12,7 +12,6 @@ from tymeventure.convienience import *
 version = "0.1.2-dev"
 saveVersion = "0.1.2-r1"
 hasSave = False
-currentLocation = None
 
 # Command-line arguments
 parser = argparse.ArgumentParser()
@@ -21,9 +20,28 @@ parser.add_argument("--nocolor", help="Turn off colors", action="store_true")
 parser.add_argument("--nointro", help="Skip the intro, best used with -n", action="store_true")
 args = parser.parse_args()
 
+def saveGame(playerName, currentLocation, inventory, locations):
+    '''Save a player's game.'''
+    global saveVersion
+    allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+    savename = "{}_tymeventuresave".format(playerName)
+    savefile_out = open(savename, "wb")
+    pickle.dump(allData, savefile_out)
+
+def loadGame(playerName):
+    '''Load a player's save.'''
+    if os.path.exists("{}/{}_tymeventuresave".format(os.getcwd(), playerName)):
+        savefile_open = open("{}/{}_tymeventuresave".format(os.getcwd(), playerName), "rb")
+        saveData = pickle.load(savefile_open)
+        hasSave = True
+    else:
+        saveData = False
+        hasSave = False
+    return hasSave, saveData
+
 # Main game loop
 def gameLoop(stdscr):
-    global locations
+    global locations, saveGame, loadGame
     stdscr.clear()
     stdscr.refresh()
     if not args.nointro:
@@ -42,13 +60,7 @@ def gameLoop(stdscr):
         playerName = args.name
 
     # Load the data from the player's save
-    #allData = loadGame( playerName )
-    hasSave = False
-    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-    if os.path.exists("".join([os.getcwd(), "/", savename])):
-        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-        saveData = pickle.load(savefile_open)
-        hasSave = True
+    hasSave, saveData = loadGame(playerName)
 
 
     if hasSave:
@@ -92,14 +104,7 @@ def gameLoop(stdscr):
         choice = nextMenu(stdscr).lower() # Use nextMenu for nice, easy clearing
         if choice == "q":
             # Save and Quit
-            #saveGame( playerName, currentLocation, inventory, locations )
-            allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
-            placename = currentLocation.printName
-            savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-            tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
-            savefile_out = open(tmpname, "wb")
-            pickle.dump(allData, savefile_out)
-            os.rename(tmpname, savename)
+            saveGame(playerName, currentLocation, inventory, locations)
             continueGame = False
         elif choice == "m":
             ypos = 1
@@ -229,28 +234,6 @@ def gameLoop(stdscr):
         else:
             pass
 
-# Broken stuff
-##def saveGame( name, curLoc, inv, locs ):
-##    allData = [curLoc, inv, locs] # Clone locations so we can keep the positions of items
-##    # Temp file for safety
-##    placename = curLoc.printName
-##    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-##    tmpname = "".join([name.rstrip().lstrip(), "_tymeventuretmp"])
-##    savefile_out = open(tmpname, "wb")
-##    pickle.dump(allData, savefile_out)
-##    os.rename(tmpname, savename)
-##
-##def loadGame( name ):
-##    savename = "".join([name.rstrip().lstrip(), "_tymeventuresave"])
-##    if os.path.exists("".join([os.getcwd(), "/", savename])):
-##        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-##        allData = pickle.load(savefile_open)
-##        hasSave = True
-##        return allData
-##    else:
-##        return [None, None, None]
-
-
 def main():
     try:
         stdscr = unicurses.initscr()
@@ -269,7 +252,9 @@ def main():
         # Game loop after this point
         gameLoop(stdscr)
     except KeyboardInterrupt:
-        saveGame( playerName )
+        pass
+        # TODO: Use global variables to fix this
+        #saveGame( playerName )
     finally:
         stdscr.erase()
         stdscr.refresh()
