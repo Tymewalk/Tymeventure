@@ -30,8 +30,8 @@ def saveGame(playerName, currentLocation, inventory, locations):
 
 def loadGame(playerName):
     '''Load a player's save.'''
-    if os.path.exists("{}/{}_tymeventuresave".format(os.getcwd, playerName)):
-        savefile_open = open("{}/{}_tymeventuresave".format(os.getcwd, playerName), "rb")
+    if os.path.exists("{}/{}_tymeventuresave".format(os.getcwd(), playerName)):
+        savefile_open = open("{}/{}_tymeventuresave".format(os.getcwd(), playerName), "rb")
         saveData = pickle.load(savefile_open)
         hasSave = True
     else:
@@ -104,7 +104,7 @@ def gameLoop(stdscr):
         choice = nextMenu(stdscr).lower() # Use nextMenu for nice, easy clearing
         if choice == "q":
             # Save and Quit
-            saveGame( playerName, currentLocation, inventory, locations )
+            saveGame(playerName, currentLocation, inventory, locations)
             continueGame = False
         elif choice == "m":
             ypos = 1
