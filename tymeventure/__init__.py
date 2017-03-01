@@ -128,8 +128,7 @@ def gameLoop(stdscr):
             keyCounter = 1
             if currentLocation.itemsHere == []:
                 stdscr.addstr(ypos, 0, "|There is nothing here.                |", unicurses.color_pair(0) | unicurses.A_BOLD)
-                ypos += 1
-                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
+                stdscr.addstr(ypos + 1, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 for item in currentLocation.itemsHere:
                     label = "|(" + str(keyCounter) + ") " + item.printName
@@ -163,10 +162,8 @@ def gameLoop(stdscr):
             keyCounter = 1
             if inventory == []:
                 stdscr.addstr(ypos, 0, "|You have nothing in your inventory.   |", unicurses.color_pair(0) | unicurses.A_BOLD)
-                ypos += 1
-                stdscr.addstr(ypos, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
-                ypos += 1
-                stdscr.addstr(ypos, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
+                stdscr.addstr(ypos + 1, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
+                stdscr.addstr(ypos + 2, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
             else:
                 itemNames = [i.printName for i in inventory]
                 ypos = drawBoxMenu(stdscr, itemNames)
