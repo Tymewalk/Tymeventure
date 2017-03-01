@@ -8,6 +8,7 @@ import unicurses
 from tymeventure.world import *
 from tymeventure.convienience import *
 
+# Some basic variables
 version = "0.1.2-dev"
 saveVersion = "0.1.2-r1"
 hasSave = False

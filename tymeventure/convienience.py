@@ -4,17 +4,21 @@ import unicurses
 
 # Small function I wrote a while back to get keypresses
 def getKey(screen):
+    '''Get a key, using getch.'''
     return chr(screen.getch())
 
 # Convienience function to quickly make menus that can be skipped through like the intro
 # Also returns a key if you want multi-choice menus. Nifty.
 def nextMenu(screen):
+    '''Clears and refreshes the screen, similar to a menu.
+    Returns the key pressed.'''
     key = getKey(screen)
     screen.clear()
     screen.refresh()
     return key
 
 def drawBoxPopup(screen, text, xsize=40):
+    '''Draws a pop-up box.'''
     screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
     ypos = 1
     for option in options:
@@ -25,6 +29,7 @@ def drawBoxPopup(screen, text, xsize=40):
     screen.addstr(ypos, 0, "-" * xsize, unicurses.color_pair(0) | unicurses.A_BOLD)
 
 def drawBoxMenu(screen, options, xsize=40):
+    '''Draws a menu of options.'''
     screen.addstr(0, 0, "-" * 40, unicurses.color_pair(0) | unicurses.A_BOLD)
     ypos = 1
     numCounter = 1

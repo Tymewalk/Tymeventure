@@ -9,6 +9,7 @@ locations = list()
 
 # The location class
 class Location():
+    '''A location the player can go to in game.'''
     def __init__(self, printName, desc):
         self.printName = printName # The "pretty" name it uses in the game
         self.desc = desc # The description it uses, which is what the player will see
@@ -19,12 +20,13 @@ class Location():
 
     def canGoTo(self, dest):
         ''' Can we go to the destination from here? '''
-        # A good example of when to use this is if we have the super detector that
-        # shimmers when we're near the magic castle
+        # A good example of when to use this is if we can only enter the magic
+        # castle if we have the wizard's key
         return dest in self.connections
 
 # The item class
 class Item():
+    '''An item, used in game.'''
     def __init__(self, printName, desc, canTake):
         self.printName = printName # The "pretty" name it uses in the game
         self.desc = desc # The description it uses, which is what the player will see
@@ -46,6 +48,7 @@ class Item():
 
 # Make a connection between two points.
 def makeConnection(pointA, pointB):
+    '''Connect two locations together.'''
     if not pointB in pointA.connections:
         pointA.connections.append(pointB)
 
@@ -117,7 +120,6 @@ hedgeclippers.useWith = hedgeclippersUse
 # Penny
 def pennyUse(stdscr, item, location, inv):
     if item == playerItem:
-        # The coin actually flips :o
         stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
@@ -126,7 +128,7 @@ def pennyUse(stdscr, item, location, inv):
 
 penny.useWith = pennyUse
 
-# Set up items in the world
+# Place the items in the world
 yourBedroom.itemsHere = [memoBedroom]
 yourShed.itemsHere = [hedgeclippers]
 townMall.itemsHere = [penny]
