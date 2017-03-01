@@ -216,7 +216,7 @@ def gameLoop(stdscr):
         currentLocation = yourBedroom
         inventory = list()
 
-    if not args.nointro:
+    if not args.nointro and not hasSave:
         adventureAnnounce = "OK " + playerName + ", get ready to play..."
         stdscr.addstr(0, 0, adventureAnnounce, unicurses.color_pair(0) | unicurses.A_BOLD)
         stdscr.addstr(2, 0, "It's a sunny day outside and you wake up. Yawn.", unicurses.color_pair(0) | unicurses.A_BOLD)
