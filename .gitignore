@@ -3,3 +3,4 @@
 build/
 dist/
 tymeventure.egg-info/
+*_tymeventuresave
