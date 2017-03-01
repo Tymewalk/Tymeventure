@@ -7,6 +7,7 @@ import pickle, os, sys, argparse
 import unicurses
 
 version = "0.1.2-dev"
+saveVersion = "0.1.2-r1"
 hasSave = False
 currentLocation = None
 
@@ -209,9 +210,9 @@ def gameLoop(stdscr):
 
 
     if hasSave:
-        currentLocation = saveData[0]
-        inventory = saveData[1]
-        locations = saveData[2]
+        currentLocation = saveData[1]
+        inventory = saveData[2]
+        locations = saveData[3]
     else:
         currentLocation = yourBedroom
         inventory = list()
@@ -251,7 +252,7 @@ def gameLoop(stdscr):
         if choice == "q":
             # Save and Quit
             #saveGame( playerName, currentLocation, inventory, locations )
-            allData = [currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+            allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
             placename = currentLocation.printName
             savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
             tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
