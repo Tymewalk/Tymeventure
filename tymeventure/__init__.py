@@ -21,9 +21,30 @@ parser.add_argument("--nocolor", help="Turn off colors", action="store_true")
 parser.add_argument("--nointro", help="Skip the intro, best used with -n", action="store_true")
 args = parser.parse_args()
 
+def saveGame(currentLocation, inventory, locations):
+    global saveVersion
+    allData = [saveVersion, currentLocation, inventory, locations] # Clone locations so we can keep the positions of items
+    placename = currentLocation.printName # Why do we even have this?
+    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
+    tmpname = "".join([playerName.rstrip().lstrip(), "_tymeventuretmp"]) # Use temp file to be safe
+    savefile_out = open(tmpname, "wb")
+    pickle.dump(allData, savefile_out)
+    os.rename(tmpname, savename)
+
+def loadGame(playerName):
+    hasSave = False
+    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
+    if os.path.exists("".join([os.getcwd(), "/", savename])):
+        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
+        saveData = pickle.load(savefile_open)
+        hasSave = True
+    else:
+        saveData = False
+    return hasSave, saveData
+
 # Main game loop
 def gameLoop(stdscr):
-    global locations
+    global locations, saveGame, loadGame
     stdscr.clear()
     stdscr.refresh()
     if not args.nointro:
@@ -43,12 +64,7 @@ def gameLoop(stdscr):
 
     # Load the data from the player's save
     #allData = loadGame( playerName )
-    hasSave = False
-    savename = "".join([playerName.rstrip().lstrip(), "_tymeventuresave"])
-    if os.path.exists("".join([os.getcwd(), "/", savename])):
-        savefile_open = open("".join([os.getcwd(), "/", savename]), "rb")
-        saveData = pickle.load(savefile_open)
-        hasSave = True
+    hasSave, saveData = loadGame(playerName)
 
 
     if hasSave:
@@ -249,7 +265,6 @@ def gameLoop(stdscr):
 ##        return allData
 ##    else:
 ##        return [None, None, None]
-
 
 def main():
     try:
