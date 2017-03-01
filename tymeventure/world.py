@@ -98,6 +98,7 @@ def memoBedroomUse(stdscr, item, location, inv):
         stdscr.addstr(0, 0, "You mess around with the note. It has some writing on it. If you looked at the note, you might be able to read it.", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
+    stdscr.addstr(0, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 memoBedroom.useWith = memoBedroomUse # It's the function itself, not the function being called
@@ -108,6 +109,7 @@ def hedgeclippersUse(stdscr, item, location, inv):
         stdscr.addstr(0, 0, "They look sharp. It's probably best not to do that.", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
+    stdscr.addstr(0, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 hedgeclippers.useWith = hedgeclippersUse
@@ -119,6 +121,7 @@ def pennyUse(stdscr, item, location, inv):
         stdscr.addstr(0, 0, "You flip the penny. It comes up " + random.choice(["heads", "tails"]) + ".", unicurses.color_pair(0) | unicurses.A_BOLD)
     else:
         stdscr.addstr(0, 0, "That doesn't seem like it will do anything.", unicurses.color_pair(0) | unicurses.A_BOLD)
+    stdscr.addstr(0, 0, "-- Press any key to continue --", unicurses.color_pair(1) | unicurses.A_BOLD)
     nextMenu(stdscr)
 
 penny.useWith = pennyUse
